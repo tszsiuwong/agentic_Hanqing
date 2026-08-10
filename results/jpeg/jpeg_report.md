@@ -36,7 +36,7 @@ JPEG 是 GCD 的 132 倍规模，但 IO 口基本相同（53 vs 56），符合 J
 
 JPEG 的 Rent p=1.215 低于 GCD 的 1.366。虽然规模大 132 倍，但连线复杂度增长更可控——JPEG 的数据通路结构使模块间连接更规律。
 
-![深度分析](jpeg_encoder_deep.png)
+![深度分析](jpeg_encoder_connectivity.png)
 
 ---
 
@@ -50,7 +50,7 @@ JPEG 的 Rent p=1.215 低于 GCD 的 1.366。虽然规模大 132 倍，但连线
 
 含 FA_X1（全加器 2173 个）、HA_X1（半加器 45 个）、XNOR2（3664 个）等算术单元，JPEG DCT 变换特征明显。
 
-![逻辑分析](jpeg_encoder_logic.png)
+![逻辑分析](jpeg_encoder_seq_comb.png)
 
 ---
 

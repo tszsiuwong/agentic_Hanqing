@@ -1,6 +1,6 @@
 # agentic_Hanqing
 
-Dizo EDA 工具的 Python 脚本集与文档。
+基于 Dizo 的 EDA 网表分析工具集。
 
 ## 环境
 
@@ -10,18 +10,34 @@ export PYTHONPATH=$HOME/dizo/build/dizo/lib/modules/py
 export PATH=$HOME/local/python3/bin:$HOME/local/bin:$HOME/.local/bin:$PATH
 ```
 
-## 目录
+## 结构
 
 ```
-├── examples/              # Python 示例脚本
-│   └── count_instances.py
-└── docs/
-    ├── quickstart.md      # 快速开始
-    └── python-api.md      # Python API 速查
+├── analysis/              # 通用分析脚本（适用任意网表）
+│   ├── count_instances.py
+│   ├── deep_analysis.py
+│   ├── logic_analysis.py
+│   └── cell_distribution.py
+├── src/dizo_utils.py      # 可复用工具库
+├── results/<benchmark>/   # 各 benchmark 的分析结果
+└── docs/                  # 参考文档
 ```
 
 ## 使用
 
 ```bash
-python3.11 examples/count_instances.py <网表.v>
+python3.11 analysis/count_instances.py <网表.v>
+python3.11 analysis/deep_analysis.py <网表.v>
+python3.11 analysis/logic_analysis.py <网表.v>
 ```
+
+## 案例: GCD
+
+| 指标 | 数值 |
+|------|------|
+| Instance | 301 |
+| Cell 类型 | 23 |
+| Rent p | 1.366 |
+| 组合/时序比 | 7.9:1 |
+
+详见 [`results/gcd/gcd_report.md`](results/gcd/gcd_report.md)

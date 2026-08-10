@@ -1,4 +1,4 @@
-# Benchmark 对比
+# Design Characterization
 
 | 指标 | [GCD](results/gcd/gcd_report.md) | [JPEG](results/jpeg/jpeg_report.md) |
 |------|------|------|

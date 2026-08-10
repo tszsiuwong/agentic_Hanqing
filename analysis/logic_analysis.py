@@ -48,9 +48,9 @@ ax.text(0.05, 0.95,
     transform=ax.transAxes, fontsize=9, verticalalignment='top',
     fontfamily='monospace', bbox=dict(boxstyle='round', facecolor='lightyellow'))
 
-fig.suptitle('GCD Logic Analysis', fontsize=14, fontweight='bold')
+fig.suptitle(f'{top.name} Logic Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
-out = os.path.expanduser('~/gcd_logic_analysis.png')
+out = os.path.expanduser(f'~/{top.name}_logic.png')
 plt.savefig(out, dpi=150, bbox_inches='tight')
 print(f'Saved: {out}\nSeq: {seq_n} Comb: {comb_n} Ratio: {comb_n/max(seq_n,1):.1f}:1')
 project.destroy()

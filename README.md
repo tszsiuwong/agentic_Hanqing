@@ -15,8 +15,8 @@ export PATH=$HOME/local/python3/bin:$HOME/local/bin:$HOME/.local/bin:$PATH
 ```
 ├── analysis/              # 通用分析脚本（适用任意网表）
 │   ├── count_instances.py
-│   ├── deep_analysis.py
-│   ├── logic_analysis.py
+│   ├── connectivity_analysis.py
+│   ├── seq_comb_analysis.py
 │   └── cell_distribution.py
 ├── src/dizo_utils.py      # 可复用工具库
 ├── results/<benchmark>/   # 各 benchmark 的分析结果
@@ -27,8 +27,8 @@ export PATH=$HOME/local/python3/bin:$HOME/local/bin:$HOME/.local/bin:$PATH
 
 ```bash
 python3.11 analysis/count_instances.py <网表.v>
-python3.11 analysis/deep_analysis.py <网表.v>
-python3.11 analysis/logic_analysis.py <网表.v>
+python3.11 analysis/connectivity_analysis.py <网表.v>
+python3.11 analysis/seq_comb_analysis.py <网表.v>
 ```
 
 ## 案例: GCD

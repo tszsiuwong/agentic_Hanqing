@@ -7,8 +7,8 @@
 ```bash
 python3.11 examples/count_instances.py   # 基础统计
 python3.11 examples/gcd_analysis.py      # 单元分布可视化
-python3.11 examples/deep_analysis.py     # Degree / Fanout / Rent
-python3.11 examples/logic_analysis.py    # 时序/组合比
+python3.11 examples/connectivity_analysis.py     # Degree / Fanout / Rent
+python3.11 examples/seq_comb_analysis.py    # 时序/组合比
 ```
 
 ---
@@ -46,7 +46,7 @@ python3.11 examples/logic_analysis.py    # 时序/组合比
 | **p** | **1.366** | Rent 指数，p>1 布线复杂度偏高 |
 | k | 0.4 | 每个门平均对外终端数 |
 
-![深度分析](gcd_deep_analysis.png)
+![深度分析](gcd_connectivity_analysis.png)
 
 ---
 
@@ -68,7 +68,7 @@ python3.11 examples/logic_analysis.py    # 时序/组合比
 | NAND2 | 24 |
 | NOR2 | 19 |
 
-![逻辑分析](gcd_logic_analysis.png)
+![逻辑分析](gcd_seq_comb_analysis.png)
 
 ---
 

@@ -31,13 +31,11 @@ python3.11 analysis/connectivity_analysis.py <网表.v>
 python3.11 analysis/seq_comb_analysis.py <网表.v>
 ```
 
-## 案例: GCD
+## 案例
 
-| 指标 | 数值 |
-|------|------|
-| Instance | 301 |
-| Cell 类型 | 23 |
-| Rent p | 1.366 |
-| 组合/时序比 | 7.9:1 |
+| Benchmark | 规模 | 报告 |
+|-----------|------|------|
+| GCD | 301 | [报告](results/gcd/gcd_report.md) |
+| JPEG | 39,866 | [报告](results/jpeg/jpeg_report.md) |
 
-详见 [`results/gcd/gcd_report.md`](results/gcd/gcd_report.md)
+[Benchmark 对比](results/comparison.md)

@@ -5,10 +5,10 @@
 ## 运行
 
 ```bash
-python3.11 examples/count_instances.py   # 基础统计
-python3.11 examples/gcd_analysis.py      # 单元分布可视化
-python3.11 examples/connectivity_analysis.py     # Degree / Fanout / Rent
-python3.11 examples/seq_comb_analysis.py    # 时序/组合比
+python3.11 analysis/count_instances.py
+python3.11 analysis/cell_distribution.py
+python3.11 analysis/connectivity_analysis.py
+python3.11 analysis/seq_comb_analysis.py
 ```
 
 ---
@@ -46,7 +46,7 @@ python3.11 examples/seq_comb_analysis.py    # 时序/组合比
 | **p** | **1.366** | Rent 指数，p>1 布线复杂度偏高 |
 | k | 0.4 | 每个门平均对外终端数 |
 
-![单元分布](gcd_cells.png)
+![连接度分析](gcd_connectivity.png)
 
 ---
 
@@ -68,7 +68,7 @@ python3.11 examples/seq_comb_analysis.py    # 时序/组合比
 | NAND2 | 24 |
 | NOR2 | 19 |
 
-![单元分布](gcd_cells.png)
+![时序组合](gcd_seq_comb.png)
 
 ---
 

@@ -34,36 +34,11 @@ Dizo 是一款面向 IC 设计数字底座的开源 EDA 数据库与交换工具
 
 ## 2. 快速开始
 
-### 2.1 编译安装
-
-```bash
-# 克隆仓库
-git clone git@gitee.com:edahelper/dizo.git
-cd dizo
-
-# 编译（8 线程）
-sh build.sh -t -j8
-
-# 可选模块（GDS 写入需要 gds2txt）
-DIZO_MODULES="gds2txt" sh build.sh -t -j8
-
-# Python 绑定（可选）
-DIZO_MODULES="datalens" sh build.sh -t -j8
-```
-
-构建输出：
-
-```
-build/dizo/bin/dizo          # 主程序
-build/dizo/lib/libdizo.so    # 核心动态库
-output/bin/db_shell          # TCL 交互终端
-```
-
-### 2.2 启动与加载设计
+### 2.1 启动与加载设计
 
 ```bash
 # 启动 TCL 交互终端
-./output/bin/db_shell
+db_shell
 ```
 
 ```tcl
@@ -85,7 +60,7 @@ load_parasitics parasitic.spef
 load_sdf delay.sdf
 ```
 
-### 2.3 导出数据
+### 2.2 导出数据
 
 ```tcl
 # 导出 DEF
@@ -810,66 +785,11 @@ tests/
 
 ---
 
-## 10. 配置与环境
-
-### 10.1 操作系统与依赖
-
-| 软件 | 版本 | 说明 |
-|------|------|------|
-| CentOS | 7.9（推荐） | 兼容其他 Linux 发行版 |
-| CMake | 3.20.5+ | 构建系统 |
-| GCC | 9.3.0+ | C++ 编译器 |
-| Boost | 1.79.0+ | 通用工具库（仅头文件） |
-| Bison | 3.6.4+ | 语法分析器 |
-| Flex | 2.6.4+ | 词法分析器 |
-| Protocol Buffers | 3.13.0+ | 序列化协议 |
-| TCL | 8.6+ | TCL 解释器 |
-| Python | 3.11.4+ | Python 绑定（可选） |
-| Ninja | 可选 | 加速编译 |
-
-### 10.2 库路径配置
-
-```bash
-# 运行时库路径
-export LD_LIBRARY_PATH=./output/lib:$LD_LIBRARY_PATH
-
-# Python 路径（如启用 datalens）
-export PYTHONPATH=./output/lib:$PYTHONPATH
-```
-
-### 10.3 构建选项参考
-
-```bash
-# 标准发布构建
-sh build.sh
-
-# 带测试构建
-sh build.sh -t -j8
-
-# 调试构建（含调试符号）
-sh build.sh -d
-
-# 启用地址消毒器（检测内存错误）
-sh build.sh -a
-
-# 启用线程消毒器
-sh build.sh --enable-tsan
-
-# 使用 Ninja 加速
-sh build.sh -N on
-
-# 启用 GDS 写入
-DIZO_MODULES="gds2txt" sh build.sh -t -j8
-
-# 启用所有可选模块
-DIZO_MODULES="perfcom;gds2txt;datalens;rtl_loader" sh build.sh -t -j8
-```
-
 ---
 
-## 11. 常见工作流
+## 10. 常见工作流
 
-### 11.1 标准数字后端加载流程
+### 10.1 标准数字后端加载流程
 
 ```tcl
 # 1. 设置并行度
@@ -901,7 +821,7 @@ dump_lef_abstract -file abstract.lef
 dump_gds2 -file final.gds -map layer_map.json
 ```
 
-### 11.2 工艺信息提取
+### 10.2 工艺信息提取
 
 ```tcl
 # 加载工艺 LEF
@@ -924,7 +844,7 @@ foreach via [get_obj_via_templates] {
 }
 ```
 
-### 11.3 物理数据提取
+### 10.3 物理数据提取
 
 ```tcl
 # 加载完整设计
@@ -962,7 +882,7 @@ puts "Total Cell Area: $total_area"
 
 ---
 
-## 12. 参考资料
+## 11. 参考资料
 
 | 文档 | 路径 |
 |------|------|
@@ -979,7 +899,7 @@ puts "Total Cell Area: $total_area"
 
 ---
 
-## 13. 常见问题
+## 12. 常见问题
 
 **Q: LEF/DEF 读取失败怎么办？**
 

@@ -50,7 +50,7 @@ ax.text(0.05, 0.95,
 
 fig.suptitle(f'{top.name} Logic Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
-out = os.path.expanduser(f'~/{top.name}_logic.png')
+out = os.path.expanduser(f'~/{top.name}_seq_comb.png')
 plt.savefig(out, dpi=150, bbox_inches='tight')
 print(f'Saved: {out}\nSeq: {seq_n} Comb: {comb_n} Ratio: {comb_n/max(seq_n,1):.1f}:1')
 project.destroy()

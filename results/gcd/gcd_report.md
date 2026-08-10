@@ -22,7 +22,7 @@ python3.11 examples/seq_comb_analysis.py    # 时序/组合比
 | Port | 56 |
 | Net | 376 |
 
-![单元分布](gcd_analysis.png)
+![单元分布](gcd_cells.png)
 
 前三类（INV_X1、DFF_X1、AOI22_X1）占总量 44%，典型的组合逻辑+时序电路特征。
 
@@ -46,7 +46,7 @@ python3.11 examples/seq_comb_analysis.py    # 时序/组合比
 | **p** | **1.366** | Rent 指数，p>1 布线复杂度偏高 |
 | k | 0.4 | 每个门平均对外终端数 |
 
-![深度分析](gcd_connectivity_analysis.png)
+![单元分布](gcd_cells.png)
 
 ---
 
@@ -68,7 +68,7 @@ python3.11 examples/seq_comb_analysis.py    # 时序/组合比
 | NAND2 | 24 |
 | NOR2 | 19 |
 
-![逻辑分析](gcd_seq_comb_analysis.png)
+![单元分布](gcd_cells.png)
 
 ---
 

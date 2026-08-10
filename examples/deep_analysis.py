@@ -6,7 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from collections import Counter
-from dizo_utils import load_netlist, count_by_ref, get_inst_degrees, get_net_fanouts, get_cell_categories
+from src.dizo_utils import load_netlist, count_by_ref, get_inst_degrees, get_net_fanouts, get_cell_categories
 
 netlist = sys.argv[1] if len(sys.argv) > 1 else "/home/shared/benchmarks/nangate45_3D/gcd/2_2_floorplan_io.v"
 project, top = load_netlist(netlist)

@@ -1,65 +1,29 @@
 #!/usr/bin/env python3
-"""
-统计 Verilog 网表中的 Instance 数量。
-
-用法:
-    python examples/count_instances.py <netlist.v>
-
-示例:
-    python examples/count_instances.py tests/st/db_tclio/netlist/design.v
-"""
-
+"""GCD 网表基础统计"""
 import sys
-import datalens
+from dizo_utils import load_netlist, count_by_ref
 
+netlist = sys.argv[1] if len(sys.argv) > 1 else "/home/shared/benchmarks/nangate45_3D/gcd/2_2_floorplan_io.v"
 
-def count_instances(netlist_file):
-    print(f"Loading: {netlist_file}")
-    ret = datalens.exchange.load_netlist([netlist_file])
-    if ret != 0:
-        print(f"Error: load_netlist returned {ret}")
-        sys.exit(1)
+project, top = load_netlist(netlist)
+HierFilterType = __import__('datalens').design.HierFilterType
 
-    project = datalens.design.present_project()
-    project.make_unique()
-    top = project.present_module()
+refs = count_by_ref(top)
+total_all = sum(refs.values())
+total_leaf = top.inst_count(HierFilterType.LEAF)
+total_hier = top.inst_count(HierFilterType.HIER)
 
-    HierFilterType = datalens.design.HierFilterType
+print(f"\nTop Module: {top.name}")
+print(f"  Total instances: {total_all}")
+print(f"    Leaf cells:    {total_leaf}")
+print(f"    Hier blocks:   {total_hier}")
+print(f"\n  Cell types ({len(refs)}):")
+for ref, cnt in sorted(refs.items(), key=lambda x: -x[1]):
+    print(f"    {ref}: {cnt}")
 
-    total_all = top.inst_count(HierFilterType.ALL)
-    total_leaf = top.inst_count(HierFilterType.LEAF)
-    total_hier = top.inst_count(HierFilterType.HIER)
+all_cells = top.get_cells("*", "", True)
+print(f"\n  Total cells (hierarchical): {len(all_cells)}")
+print(f"  Ports: {top.port_count()}")
+print(f"  Nets:  {top.net_count()}")
 
-    print(f"\nTop Module: {top.name}")
-    print(f"  Total instances: {total_all}")
-    print(f"    Leaf cells:    {total_leaf}")
-    print(f"    Hier blocks:   {total_hier}")
-
-    # 按 ref_name 分组统计
-    ref_count = {}
-    for inst in top.inst_iter():
-        ref = inst.ref_name
-        ref_count[ref] = ref_count.get(ref, 0) + 1
-
-    print(f"\n  Cell type breakdown ({len(ref_count)} types):")
-    for ref in sorted(ref_count, key=ref_count.get, reverse=True):
-        print(f"    {ref}: {ref_count[ref]}")
-
-    # 递归统计所有层级
-    all_cells = top.get_cells("*", "", True)
-    print(f"\n  Total cells (hierarchical): {len(all_cells)}")
-
-    net_count = top.net_count()
-    port_count = top.port_count()
-    print(f"\n  Ports: {port_count}")
-    print(f"  Nets:  {net_count}")
-
-    project.destroy()
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python examples/count_instances.py <netlist.v>")
-        sys.exit(1)
-
-    count_instances(sys.argv[1])
+project.destroy()

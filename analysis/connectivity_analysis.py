@@ -43,10 +43,10 @@ else:
     ax.hist(clipped, bins=30, color='coral', edgecolor='white', alpha=0.8)
 ax.set_xlabel('Fanout'); ax.set_title(f'Fanout  μ={fo_mean:.1f}  max={fo_max}')
 
-# 3. Degree CDF
+# 3. Degree CDF (sample for large designs)
 ax = axes[0, 2]
-sorted_deg = sorted(inst_degrees)
-ax.plot(sorted_deg, np.arange(1, len(sorted_deg)+1)/len(sorted_deg)*100, 'b-', lw=2)
+sample = sorted_deg[::max(1, len(sorted_deg)//5000)]
+ax.plot(sample, np.linspace(0, 100, len(sample)), 'b-', lw=2)
 ax.set_xlabel('Degree'); ax.set_ylabel('Cumulative %')
 ax.set_title('Degree CDF'); ax.grid(True, alpha=0.3)
 
@@ -61,10 +61,11 @@ ax.set_xlabel('Avg Pin Count'); ax.set_title('Avg Degree by Cell Type')
 ax = axes[1, 1]
 deg_arr = np.array(sorted(inst_degrees))
 cg = np.arange(1, len(deg_arr)+1); cp = np.cumsum(deg_arr)
+step = max(1, len(cg)//5000)
 start = len(cg)//4
 p, log_k = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1)
 k = 10**log_k
-ax.loglog(cg, cp, 'b-', lw=1.5, alpha=0.7, label='Data')
+ax.loglog(cg[::step], cp[::step], 'b.', ms=1, alpha=0.5, label='Data')
 gf = np.logspace(0, np.log10(max(cg)), 100)
 ax.loglog(gf, k*gf**p, 'r--', lw=2, label=f'T={k:.1f}·G^{p:.3f}')
 ax.set_xlabel('# Gates'); ax.set_ylabel('# Terminals')

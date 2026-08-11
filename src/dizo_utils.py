@@ -19,10 +19,17 @@ def get_single_file(netlist_dir, keyword):
     return None
 
 
+def _iter_all_leaf(top):
+    """遍历所有模块的所有非层级实例"""
+    for module in datalens.design.module_iter():
+        for inst in module.inst_iter(False):
+            yield inst
+
+
 def count_by_ref(top):
     """按 ref_name 统计所有实例，返回 {ref_name: count}"""
     counts = {}
-    for inst in top.inst_iter():
+    for inst in _iter_all_leaf(top):
         ref = inst.ref_name
         counts[ref] = counts.get(ref, 0) + 1
     return counts
@@ -30,7 +37,7 @@ def count_by_ref(top):
 
 def get_inst_degrees(top):
     """返回每个实例的 pin 数列表"""
-    return [sum(1 for _ in inst.pin_iter()) for inst in top.inst_iter()]
+    return [sum(1 for _ in inst.pin_iter()) for inst in _iter_all_leaf(top)]
 
 
 def get_net_fanouts(top):
@@ -52,7 +59,7 @@ SEQ_PREFIXES = ('DFF', 'SDFF', 'DLAT', 'SEDFF', 'RSDFF')
 def classify_seq_comb(top):
     """区分时序/组合，返回 (seq_insts, comb_insts)"""
     seq, comb = [], []
-    for inst in top.inst_iter():
+    for inst in _iter_all_leaf(top):
         ref = inst.ref_name
         (seq if any(ref.startswith(p) for p in SEQ_PREFIXES) else comb).append(inst)
     return seq, comb
@@ -62,7 +69,7 @@ def get_cell_categories(top, top_n=None):
     """按功能类别分组统计，返回 {category: count}"""
     from collections import defaultdict
     cats = defaultdict(int)
-    for inst in top.inst_iter():
+    for inst in _iter_all_leaf(top):
         base = inst.ref_name.split('_')[0].rstrip('0123456789X')
         cats[base] += 1
     sorted_cats = sorted(cats.items(), key=lambda x: -x[1])
@@ -72,10 +79,10 @@ def get_cell_categories(top, top_n=None):
 
 
 def get_inst_degrees_with_ref(top):
-    """一次遍历获取 degree 列表 + 按 ref 分组的 degree 列表，返回 (degrees, ref_degrees)"""
+    """一次遍历获取 degree 列表 + 按 ref 分组的 degree 列表"""
     degrees = []
     ref_deg = {}
-    for inst in top.inst_iter():
+    for inst in _iter_all_leaf(top):
         d = sum(1 for _ in inst.pin_iter())
         degrees.append(d)
         ref = inst.ref_name

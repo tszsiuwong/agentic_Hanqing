@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""GCD 深度分析: Degree / Fanout / Rent's Rule"""
-import sys, os
+"""连接度分析: Degree / Fanout / Rent's Rule"""
+import sys, os, time
+t0 = time.time()
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -84,5 +85,5 @@ fig.suptitle(f'{top.name} Deep Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
 out = os.path.expanduser(f'~/{top.name}_connectivity.png')
 plt.savefig(out, dpi=150, bbox_inches='tight')
-print(f'Saved: {out}\nRent p={p:.3f} k={k:.1f}  Degree μ={np.mean(inst_degrees):.1f}  Fanout μ={np.mean(net_fanouts):.1f}')
+print(f'Saved: {out}\nRent p={p:.3f} k={k:.1f}  Degree μ={np.mean(inst_degrees):.1f}  Fanout μ={np.mean(net_fanouts):.1f}  [{time.time()-t0:.1f}s]')
 project.destroy()

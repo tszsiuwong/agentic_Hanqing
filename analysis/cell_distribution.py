@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """网表单元分布可视化"""
-import sys, os
+import sys, os, time
+t0 = time.time()
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -50,5 +51,5 @@ ax2.set_title(f'{top.name}  |  {total} inst  |  {len(refs)} types  |  {top.port_
 plt.tight_layout()
 out = os.path.expanduser(f'~/{top.name}_cells.png')
 plt.savefig(out, dpi=150, bbox_inches='tight')
-print(f'Saved: {out}')
+print(f'Saved: {out}  [{time.time()-t0:.1f}s]')
 project.destroy()

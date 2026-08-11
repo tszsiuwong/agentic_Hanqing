@@ -37,5 +37,6 @@ python3.11 analysis/seq_comb_analysis.py <网表.v>
 |-----------|------|------|
 | GCD | 301 | [报告](results/gcd/gcd_report.md) |
 | JPEG | 39,866 | [报告](results/jpeg/jpeg_report.md) |
+| NVDLA | 2,229,371 | [报告](results/nvdla/nvdla_report.md) |
 
 [Benchmark 对比](results/design_characterization.md)

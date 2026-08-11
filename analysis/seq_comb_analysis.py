@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""GCD 逻辑分析: 时序/组合比 + 高扇出"""
+"""时序/组合比分析 + 高扇出"""
+import sys, os, time
+t0 = time.time()
 import sys, os
 import matplotlib
 matplotlib.use('Agg')
@@ -52,5 +54,5 @@ fig.suptitle(f'{top.name} Logic Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
 out = os.path.expanduser(f'~/{top.name}_seq_comb.png')
 plt.savefig(out, dpi=150, bbox_inches='tight')
-print(f'Saved: {out}\nSeq: {seq_n} Comb: {comb_n} Ratio: {comb_n/max(seq_n,1):.1f}:1')
+print(f'Saved: {out}\nSeq: {seq_n} Comb: {comb_n} Ratio: {comb_n/max(seq_n,1):.1f}:1  [{time.time()-t0:.1f}s]')
 project.destroy()

@@ -187,38 +187,85 @@ ax.set_xlabel('Count'); ax.set_title('Top Cell Functions')
 plt.tight_layout()
 plt.savefig("out/cell_functions.png", dpi=150); plt.close()
 
-# 连接度 + Rent 图
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 5))
-# Degree
-dc = Counter(degrees)
-dx, dy = sorted(dc.keys()), [dc[d] for d in sorted(dc.keys())]
-ax1.bar(dx, dy, color='#4CAF50', edgecolor='white')
-ax1.set_xlabel('Degree'); ax1.set_ylabel('Instances'); ax1.set_title('Degree Distribution')
-# Fanout
-fo_vals = [f for f in fanouts if f > 0]
-if fo_vals:
-    ax2.hist(fo_vals, bins=min(30, max(fo_vals)), color='#FF9800', edgecolor='white')
-ax2.set_xlabel('Fanout'); ax2.set_ylabel('Nets'); ax2.set_title('Fanout Distribution')
-ax2.axvline(avg_f, color='red', linestyle='--', label=f'Mean={avg_f:.1f}')
-ax2.legend(fontsize=7)
-# Rent's Rule
-if rents is not None and len(rents) > 0:
-    if len(rents) > 5000:
-        step = len(rents)//5000
-        rents_s = rents[::step]
-    else:
-        rents_s = rents
-    ax3.loglog(rents_s[:, 0], rents_s[:, 1], 'b.', ms=1, alpha=0.5, label='Data')
-    ax3.loglog(rents_s[:, 0], (10**logk) * rents_s[:, 0]**rent_p, 'r--', lw=2,
-               label=f'T={10**logk:.1f}·G^{rent_p:.3f}')
-    ax3.set_xlabel('# Gates'); ax3.set_ylabel('# Terminals')
-    ax3.set_title(f"Rent's Rule  p={rent_p:.3f}"); ax3.legend(fontsize=7); ax3.grid(True, alpha=0.3)
+# 连接度 + Rent 图 (6-panel)
+fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+d_mean = sum(degrees)/max(len(degrees),1); d_std = (sum((x-d_mean)**2 for x in degrees)/max(len(degrees),1))**0.5 if degrees else 0
+f_mean = avg_f; f_max = mx_f
+deg_arr = sorted(degrees); fo_vals = [f for f in fanouts if f > 0]
+unique_deg = len(set(degrees)); unique_fo = len(set(fo_vals))
+is_large = len(degrees) > 100000
+
+# 1. Degree Distribution
+ax = axes[0, 0]
+if unique_deg <= 30 and not is_large:
+    dc = sorted(Counter(degrees).items())
+    ax.bar(*zip(*dc), color='steelblue', edgecolor='white')
 else:
-    ax3.text(0.5, 0.5, 'N/A', ha='center', va='center', transform=ax3.transAxes, fontsize=14)
-    ax3.set_title("Rent's Rule")
-plt.suptitle('Connectivity & Rent')
+    ax.hist(degrees, bins=min(20, unique_deg), color='steelblue', edgecolor='white')
+ax.set_xlabel('Pin Count'); ax.set_title(f'Degree  μ={d_mean:.1f}  σ={d_std:.1f}')
+
+# 2. Fanout Distribution
+ax = axes[0, 1]
+if unique_fo <= 30 and not is_large:
+    fc = sorted(Counter(fo_vals).items())
+    ax.bar(*zip(*fc), color='coral', edgecolor='white')
+else:
+    p98 = np.percentile(fo_vals, 98) if fo_vals else 0
+    clipped = [f for f in fo_vals if f <= p98 * 2]
+    ax.hist(clipped, bins=30, color='coral', edgecolor='white', alpha=0.8)
+ax.set_xlabel('Fanout'); ax.set_title(f'Fanout  μ={f_mean:.1f}  max={f_max}')
+
+# 3. Degree CDF
+ax = axes[0, 2]
+sample = deg_arr[::max(1, len(deg_arr)//5000)]
+ax.plot(sample, np.linspace(0, 100, len(sample)), 'b-', lw=2)
+ax.set_xlabel('Degree'); ax.set_ylabel('Cumulative %')
+ax.set_title('Degree CDF'); ax.grid(True, alpha=0.3)
+
+# 4. Cell Type Avg Degree
+ax = axes[1, 0]
+cell_deg = {}
+for inst in insts:
+    cell_deg.setdefault(inst.ref_name, []).append(len(inst_nets.get(inst.name, [])))
+top12 = sorted(cell_deg.items(), key=lambda x: -sum(x[1])/max(len(x[1]),1))[:12]
+ax.barh(range(12), [sum(t[1])/max(len(t[1]),1) for t in top12], color='teal')
+ax.set_yticks(range(12)); ax.set_yticklabels([t[0] for t in top12]); ax.invert_yaxis()
+ax.set_xlabel('Avg Pin Count'); ax.set_title('Avg Degree by Cell Type')
+
+# 5. Rent's Rule
+ax = axes[1, 1]
+import numpy as np
+darr = np.array(deg_arr); cg = np.arange(1, len(darr)+1); cp = np.cumsum(darr)
+step = max(1, len(cg)//5000); start = len(cg)//4
+if len(cg) > start:
+    p, lk = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1); k = 10**lk
+    ax.loglog(cg[::step], cp[::step], 'b.', ms=1, alpha=0.5, label='Data')
+    gf = np.logspace(0, np.log10(max(cg)), 100)
+    ax.loglog(gf, k*gf**p, 'r--', lw=2, label=f'T={k:.1f}·G^{p:.3f}')
+    ax.legend()
+    rp_text = f'p={p:.3f} k={k:.1f}'
+else: rp_text = 'N/A'
+ax.set_xlabel('# Gates'); ax.set_ylabel('# Terminals')
+ax.set_title(f"Rent's Rule  {rp_text}"); ax.grid(True, alpha=0.3)
+
+# 6. Summary
+ax = axes[1, 2]; ax.axis('off')
+info = f"""Design: {top.name}
+Instances: {total:,}
+Cell Types: {len(ref_counter)}
+Ports: {len(ports)}  Nets: {len(nets)}
+
+Degree:  [{min(degrees) if degrees else 0}, {max(degrees) if degrees else 0}]
+  μ={d_mean:.1f}  σ={d_std:.1f}
+Fanout:  μ={f_mean:.1f}  max={f_max:,}
+Rent:    {rp_text}"""
+ax.text(0.05, 0.95, info, transform=ax.transAxes, fontsize=10,
+        verticalalignment='top', fontfamily='monospace',
+        bbox=dict(boxstyle='round', facecolor='lightyellow'))
+
+fig.suptitle(f'{top.name}  Connectivity Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
-plt.savefig("out/connectivity.png", dpi=150); plt.close()
+plt.savefig("out/connectivity.png", dpi=150, bbox_inches='tight'); plt.close()
 
 print(f"\n{SEP}")
 print("  Done — 图表 → out/")

@@ -102,6 +102,7 @@ else:
 print(f"  Fanout:    均值 {avg_f:.1f}  最大 {mx_f}")
 
 # ════════════ Rent's Rule ════════════
+rents = None
 if max(degrees) > 0:
     n_groups = 10
     gs = [total//n_groups]*n_groups
@@ -121,6 +122,7 @@ if max(degrees) > 0:
     if len(pts_c) >= 2:
         A = np.vstack([np.ones_like(pts_c), pts_c]).T
         logk, rent_p = np.linalg.lstsq(A, pts_t, rcond=None)[0]
+        rents = np.column_stack([np.power(10, pts_c), np.power(10, pts_t)])  # actual values for plot
     print(f"  Rent  p:   {rent_p:.3f}    k: {10**logk:.2f}")
 else:
     print(f"  Rent:      N/A")
@@ -156,19 +158,36 @@ ax.set_xlabel('Count'); ax.set_title('Top Cell Functions')
 plt.tight_layout()
 plt.savefig("out/cell_functions.png", dpi=150); plt.close()
 
-# 连接度图
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+# 连接度 + Rent 图
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 5))
+# Degree
 dc = Counter(degrees)
 dx, dy = sorted(dc.keys()), [dc[d] for d in sorted(dc.keys())]
 ax1.bar(dx, dy, color='#4CAF50', edgecolor='white')
 ax1.set_xlabel('Degree'); ax1.set_ylabel('Instances'); ax1.set_title('Degree Distribution')
+# Fanout
 fo_vals = [f for f in fanouts if f > 0]
 if fo_vals:
     ax2.hist(fo_vals, bins=min(30, max(fo_vals)), color='#FF9800', edgecolor='white')
 ax2.set_xlabel('Fanout'); ax2.set_ylabel('Nets'); ax2.set_title('Fanout Distribution')
 ax2.axvline(avg_f, color='red', linestyle='--', label=f'Mean={avg_f:.1f}')
-ax2.legend()
-plt.suptitle('Connectivity Analysis')
+ax2.legend(fontsize=7)
+# Rent's Rule
+if rents is not None and len(rents) > 0:
+    if len(rents) > 5000:
+        step = len(rents)//5000
+        rents_s = rents[::step]
+    else:
+        rents_s = rents
+    ax3.loglog(rents_s[:, 0], rents_s[:, 1], 'b.', ms=1, alpha=0.5, label='Data')
+    ax3.loglog(rents_s[:, 0], (10**logk) * rents_s[:, 0]**rent_p, 'r--', lw=2,
+               label=f'T={10**logk:.1f}·G^{rent_p:.3f}')
+    ax3.set_xlabel('# Gates'); ax3.set_ylabel('# Terminals')
+    ax3.set_title(f"Rent's Rule  p={rent_p:.3f}"); ax3.legend(fontsize=7); ax3.grid(True, alpha=0.3)
+else:
+    ax3.text(0.5, 0.5, 'N/A', ha='center', va='center', transform=ax3.transAxes, fontsize=14)
+    ax3.set_title("Rent's Rule")
+plt.suptitle('Connectivity & Rent')
 plt.tight_layout()
 plt.savefig("out/connectivity.png", dpi=150); plt.close()
 

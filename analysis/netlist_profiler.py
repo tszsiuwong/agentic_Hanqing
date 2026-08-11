@@ -153,19 +153,14 @@ counts = [c for _, c in sorted_cells]
 
 # 单元分布图 (只画 Top 30)
 show_n = min(30, len(names))
-if len(names) > show_n:
-    show_names = names[:show_n] + ['Other']
-    show_counts = counts[:show_n] + [sum(counts[show_n:])]
-else:
-    show_names = names[:show_n]
-    show_counts = counts[:show_n]
+show_names = names[:show_n]
+show_counts = counts[:show_n]
 colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(show_names))]
-if len(names) > show_n: colors[-1] = '#9E9E9E'
 fig, ax = plt.subplots(figsize=(14, 5))
 ax.bar(range(len(show_names)), show_counts, color=colors)
 ax.set_xticks(range(len(show_names)))
 ax.set_xticklabels(show_names, rotation=45, ha='right', fontsize=8)
-ax.set_ylabel('Count'); ax.set_title('Cell Distribution')
+ax.set_ylabel('Count'); ax.set_title(f'Cell Distribution (Top {show_n} of {len(names)} types)')
 plt.tight_layout()
 plt.savefig("out/cells.png", dpi=150); plt.close()
 

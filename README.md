@@ -6,7 +6,7 @@
 
 ```
 ├── analysis/                    # 分析脚本（[详见](analysis/README.md)）
-│   ├── analyze.py               # 一键分析流水线
+│   ├── netlist_profiler.py      # 一键分析流水线
 │   ├── count_instances.py       # 基础统计 + 单元分布
 │   ├── connectivity_analysis.py # Degree / Fanout / Rent
 │   ├── cell_area.py             # 单元面积/几何（需 LEF）
@@ -21,7 +21,7 @@
 
 ```bash
 # 一键分析
-python3.11 analysis/analyze.py <设计.v>
+python3.11 analysis/netlist_profiler.py <设计.v>
 
 # 分步分析
 python3.11 analysis/count_instances.py <设计.v>

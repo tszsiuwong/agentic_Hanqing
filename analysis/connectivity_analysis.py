@@ -45,7 +45,8 @@ ax.set_xlabel('Fanout'); ax.set_title(f'Fanout  μ={fo_mean:.1f}  max={fo_max}')
 
 # 3. Degree CDF (sample for large designs)
 ax = axes[0, 2]
-sample = sorted_deg[::max(1, len(sorted_deg)//5000)]
+sd = sorted(inst_degrees)
+sample = sd[::max(1, len(sd)//5000)]
 ax.plot(sample, np.linspace(0, 100, len(sample)), 'b-', lw=2)
 ax.set_xlabel('Degree'); ax.set_ylabel('Cumulative %')
 ax.set_title('Degree CDF'); ax.grid(True, alpha=0.3)

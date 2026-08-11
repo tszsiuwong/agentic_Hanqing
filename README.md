@@ -36,6 +36,8 @@ python3.11 analysis/connectivity_analysis.py <设计.v>
 | JPEG | 39,866 | [报告](results/jpeg/jpeg_report.md) |
 | ariane133 | 83,924 | [报告](results/ariane133/ariane133_report.md) |
 | NVDLA | 2,229,371 | [报告](results/nvdla/nvdla_report.md) |
+| mempool | 2,579,164 | [报告](results/mempool/mempool_report.md) |
+| openc910 | 938,955 | [报告](results/openc910/openc910_report.md) |
 | superblue1 | 1,206,104 | [报告](results/superblue1/superblue1_report.md) |
 
 [设计特征化对比](results/design_characterization.md)

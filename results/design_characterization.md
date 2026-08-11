@@ -22,8 +22,10 @@
 | GCD | 301 | 23 | 56 | 376 | [gcd_report.md](gcd/gcd_report.md) |
 | JPEG | 39,866 | 47 | 53 | 48,752 | [jpeg_report.md](jpeg/jpeg_report.md) |
 | Ariane133 | 83,924 | 77 | 500 | 109,590 | [ariane133_report.md](ariane133/ariane133_report.md) |
+| openc910 | 938,955 | 64 | 1,388 | 957,583 | [openc910_report.md](openc910/openc910_report.md) |
 | superblue1 | 1,206,104 | 248 | 6,528 | 1,215,710 | [superblue1_report.md](superblue1/superblue1_report.md) |
 | NVDLA | 2,229,371 | 102 | 1,765 | 2,818,808 | [nvdla_report.md](nvdla/nvdla_report.md) |
+| mempool | 2,579,164 | 96 | 11,439 | 3,001,949 | [mempool_report.md](mempool/mempool_report.md) |
 
 ---
 
@@ -34,8 +36,10 @@
 | GCD | 3.5 | 1.2 | 2.9 | 35 |
 | JPEG | 3.5 | 1.0 | 2.9 | — |
 | Ariane133 | 4.6 | 1.6 | 3.6 | 19,629 |
+| openc910 | 3.9 | 1.2 | 3.8 | 84,231 |
 | superblue1 | 3.1 | 4.7 | 3.1 | 7,213 |
 | NVDLA | 3.8 | 4.2 | 3.1 | 355,370 |
+| mempool | 4.1 | 1.7 | 3.5 | 271,528 |
 
 ### 归因
 
@@ -50,8 +54,10 @@ Degree 均值反映门级复杂度。Ariane133（4.6）最高，使用更多 AOI
 | GCD | 1.365 | 0.42 |
 | JPEG | 1.215 | 0.30 |
 | Ariane133 | 1.377 | 0.06 |
+| openc910 | 1.376 | 0.02 |
 | superblue1 | 1.356 | 0.02 |
 | NVDLA | 1.316 | 0.04 |
+| mempool | 1.371 | 0.02 |
 
 ### 归因
 

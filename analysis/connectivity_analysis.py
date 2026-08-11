@@ -1,84 +1,94 @@
 #!/usr/bin/env python3
-"""Step 5: 连接度分析 —— Degree / Fanout / Rent's Rule + 图表"""
-
-import sys, os, math, datalens
-from collections import Counter
-import matplotlib.pyplot as plt
+"""连接度分析: Degree / Fanout / Rent's Rule"""
+import sys, os, time
+t0 = time.time()
 import matplotlib
-matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
-
-if len(sys.argv) < 2:
-    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [out_dir] [tech.lef macro.lef ...]")
-    sys.exit(1)
-
-main_file = sys.argv[1]
-# out_dir: 第二个参数如果不像文件路径就当目录，否则默认 .
-args = sys.argv[2:]
-if args and not any(args[0].endswith(ext) for ext in ('.v', '.v.gz', '.def', '.lef', '.lib', '.lib.gz')):
-    out_dir = args[0]; args = args[1:]
-else:
-    out_dir = "."
-lef_files = [a for a in args if a.endswith('.lef') or a.endswith('.lef.gz')]
-os.makedirs(out_dir, exist_ok=True)
-
-if main_file.endswith('.v') or main_file.endswith('.v.gz'):
-    datalens.exchange.load_netlist([main_file])
-else:
-    if lef_files: datalens.exchange.load_lef(lef_files)
-    datalens.exchange.load_def(main_file)
-
-top = datalens.design.present_project().present_module()
-insts = top.insts
-nets = top.nets
-
-degrees = [i.pin_count() for i in insts]
-fanouts = [n.fanout_leaf_pin_count(is_flatten_view=False, include_inout=True) for n in nets]
-avg_d = sum(degrees)/len(degrees) if degrees else 0
-avg_f = sum(fanouts)/len(fanouts) if fanouts else 0
-
-# Rent
-n_groups, total = 10, len(insts)
-gs = [total//n_groups]*n_groups
-for i in range(total - sum(gs)): gs[i%n_groups] += 1
-pts_c, pts_t, idx = [], [], 0
-for g in gs:
-    grp = insts[idx:idx+g]; idx += g
-    if not grp: continue
-    nets_used = set()
-    for gi in grp:
-        for p in gi.pins:
-            if p.net: nets_used.add(p.net.name)
-    if len(grp) > 0 and len(nets_used) > 0:
-        pts_c.append(math.log10(len(grp)))
-        pts_t.append(math.log10(len(nets_used)))
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import numpy as np
-rent_p, logk = 0, 0
-if len(pts_c) >= 2:
-    A = np.vstack([np.ones_like(pts_c), pts_c]).T
-    logk, rent_p = np.linalg.lstsq(A, pts_t, rcond=None)[0]
+from collections import Counter
+from src.dizo_utils import load_netlist, count_by_ref, get_inst_degrees_with_ref, get_net_fanouts
 
-print("=" * 50)
-print("连接度分析")
-print("=" * 50)
-print(f"  Degree 均值: {avg_d:.1f}  (范围 {min(degrees)}–{max(degrees)})")
-print(f"  Fanout 均值: {avg_f:.1f}  (最大 {max(fanouts)})")
-print(f"  Rent p:      {rent_p:.3f}  k: {10**logk:.2f}")
-print("=" * 50)
+netlist = sys.argv[1] if len(sys.argv) > 1 else "/home/shared/benchmarks/nangate45_3D/gcd/2_2_floorplan_io.v"
+project, top = load_netlist(netlist)
 
-# 图
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-dc = Counter(degrees)
-dx, dy = sorted(dc.keys()), [dc[d] for d in sorted(dc.keys())]
-ax1.bar(dx, dy, color='#4CAF50', edgecolor='white')
-ax1.set_xlabel('Degree'); ax1.set_ylabel('Instances'); ax1.set_title('Degree Distribution')
-fo_vals = [f for f in fanouts if f > 0]
-if fo_vals:
-    ax2.hist(fo_vals, bins=min(30, max(fo_vals)), color='#FF9800', edgecolor='white')
-ax2.set_xlabel('Fanout'); ax2.set_ylabel('Nets'); ax2.set_title('Fanout Distribution')
-ax2.axvline(avg_f, color='red', linestyle='--', label=f'Mean={avg_f:.1f}')
-ax2.legend()
-plt.suptitle('Connectivity Analysis')
+refs = count_by_ref(top)
+inst_degrees, cell_degree = get_inst_degrees_with_ref(top)
+net_fanouts = get_net_fanouts(top)
+
+deg_mean = np.mean(inst_degrees); deg_median = np.median(inst_degrees); deg_std = np.std(inst_degrees)
+fo_mean = np.mean(net_fanouts); fo_max = max(net_fanouts)
+unique_deg = len(set(inst_degrees)); unique_fo = len(set(net_fanouts))
+is_large = len(inst_degrees) > 100000
+
+fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+
+# 1. Degree Distribution
+ax = axes[0, 0]
+if unique_deg <= 30 and not is_large:
+    dc = sorted(Counter(inst_degrees).items())
+    ax.bar(*zip(*dc), color='steelblue', edgecolor='white')
+else:
+    ax.hist(inst_degrees, bins=min(20, unique_deg), color='steelblue', edgecolor='white')
+ax.set_xlabel('Pin Count'); ax.set_title(f'Degree  μ={deg_mean:.1f}  σ={deg_std:.1f}')
+
+# 2. Fanout Distribution
+ax = axes[0, 1]
+if unique_fo <= 30 and not is_large:
+    fc = sorted(Counter(net_fanouts).items())
+    ax.bar(*zip(*fc), color='coral', edgecolor='white')
+else:
+    p98 = np.percentile(net_fanouts, 98)
+    clipped = [f for f in net_fanouts if f <= p98 * 2]
+    ax.hist(clipped, bins=30, color='coral', edgecolor='white', alpha=0.8)
+ax.set_xlabel('Fanout'); ax.set_title(f'Fanout  μ={fo_mean:.1f}  max={fo_max}')
+
+# 3. Degree CDF
+ax = axes[0, 2]
+sorted_deg = sorted(inst_degrees)
+ax.plot(sorted_deg, np.arange(1, len(sorted_deg)+1)/len(sorted_deg)*100, 'b-', lw=2)
+ax.set_xlabel('Degree'); ax.set_ylabel('Cumulative %')
+ax.set_title('Degree CDF'); ax.grid(True, alpha=0.3)
+
+# 4. Cell Type Avg Degree
+ax = axes[1, 0]
+top12 = sorted(cell_degree.items(), key=lambda x: -np.mean(x[1]))[:12]
+ax.barh(range(12), [np.mean(t[1]) for t in top12], color='teal')
+ax.set_yticks(range(12)); ax.set_yticklabels([t[0] for t in top12]); ax.invert_yaxis()
+ax.set_xlabel('Avg Pin Count'); ax.set_title('Avg Degree by Cell Type')
+
+# 5. Rent's Rule
+ax = axes[1, 1]
+deg_arr = np.array(sorted(inst_degrees))
+cg = np.arange(1, len(deg_arr)+1); cp = np.cumsum(deg_arr)
+start = len(cg)//4
+p, log_k = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1)
+k = 10**log_k
+ax.loglog(cg, cp, 'b-', lw=1.5, alpha=0.7, label='Data')
+gf = np.logspace(0, np.log10(max(cg)), 100)
+ax.loglog(gf, k*gf**p, 'r--', lw=2, label=f'T={k:.1f}·G^{p:.3f}')
+ax.set_xlabel('# Gates'); ax.set_ylabel('# Terminals')
+ax.set_title(f"Rent's Rule  p={p:.3f}  k={k:.1f}")
+ax.legend(); ax.grid(True, alpha=0.3)
+
+# 6. Summary
+ax = axes[1, 2]; ax.axis('off')
+info = f"""Design: {top.name}
+Instances: {len(inst_degrees):,}
+Cell Types: {len(refs)}
+Ports: {top.port_count()}  Nets: {len(net_fanouts):,}
+
+Degree:  [{min(inst_degrees)}, {max(inst_degrees)}]
+  μ={deg_mean:.1f}  σ={deg_std:.1f}
+Fanout:  μ={fo_mean:.1f}  max={fo_max:,}
+Rent:    p={p:.3f}  k={k:.1f}"""
+ax.text(0.05, 0.95, info, transform=ax.transAxes, fontsize=10,
+        verticalalignment='top', fontfamily='monospace',
+        bbox=dict(boxstyle='round', facecolor='lightyellow'))
+
+fig.suptitle(f'{top.name}  Connectivity Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
-plt.savefig(os.path.join(out_dir, 'connectivity.png'), dpi=150)
-plt.close()
-print(f"\nSaved: {os.path.join(out_dir, 'connectivity.png')}")
+out = os.path.expanduser(f'~/{top.name}_connectivity.png')
+plt.savefig(out, dpi=150, bbox_inches='tight')
+print(f'Saved: {out}\nRent p={p:.3f} k={k:.1f}  Degree μ={deg_mean:.1f}  Fanout μ={fo_mean:.1f}  [{time.time()-t0:.1f}s]')
+project.destroy()

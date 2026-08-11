@@ -21,7 +21,10 @@ else:
     datalens.exchange.load_def(design_file)
 
 top = datalens.design.present_project().present_module()
-insts = top.insts
+insts = []
+for module in datalens.design.module_iter():
+    for inst in module.inst_iter(False):
+        insts.append(inst)
 nets = top.nets
 ports = top.ports
 

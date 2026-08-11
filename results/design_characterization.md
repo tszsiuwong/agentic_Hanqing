@@ -86,6 +86,7 @@
 | GCD | 301 | 23 | [gcd_report.md](gcd/gcd_report.md) |
 | JPEG | 39,866 | 47 | [jpeg_report.md](jpeg/jpeg_report.md) |
 | NVDLA | 2,229,371 | 102 | [nvdla_report.md](nvdla/nvdla_report.md) |
+| superblue1 | 1,206,104 | 248 | [superblue1_report.md](superblue1/superblue1_report.md) |
 
 ---
 
@@ -96,6 +97,7 @@
 | GCD | 3.6 | 1.0 | 3.0 | 35 |
 | JPEG | 3.6 | — | 2.9 | — |
 | NVDLA | 4.0 | — | 3.1 | — |
+| superblue1 | 3.1 | — | 3.1 | 7213 |
 
 ### 归因
 
@@ -112,6 +114,7 @@
 | GCD | 1.366 | 0.4 |
 | JPEG | 1.215 | 0.3 |
 | NVDLA | 1.325 | 0.0 |
+| superblue1 | 1.356 | 0.02 |
 
 ### 归因
 

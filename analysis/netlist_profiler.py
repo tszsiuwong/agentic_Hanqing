@@ -97,7 +97,8 @@ print("  连接度")
 print(SEP)
 if max(degrees) > 0:
     avg_d = sum(degrees)/len(degrees)
-    print(f"  Degree:    均值 {avg_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
+    std_d = (sum((x-avg_d)**2 for x in degrees)/len(degrees))**0.5
+    print(f"  Degree:    均值 {avg_d:.1f}  σ={std_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
 else:
     print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
 print(f"  Fanout:    均值 {avg_f:.1f}  最大 {mx_f}")

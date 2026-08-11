@@ -12,8 +12,8 @@ export PYTHONPATH=/path/to/datalens/lib:$PYTHONPATH
 ## 一键分析
 
 ```bash
-datalens_python analysis/analyze.py design.v
-datalens_python analysis/analyze.py design.def tech.lef cells.lef
+datalens_python analysis/netlist_profiler.py design.v
+datalens_python analysis/netlist_profiler.py design.def tech.lef cells.lef
 ```
 
 加载一次，全量输出：基础统计 → 单元分布 → 功能分类 → 连接度 → Rent → 图表。
@@ -33,7 +33,7 @@ datalens_python analysis/analyze.py design.def tech.lef cells.lef
 ### 一键运行
 
 ```bash
-datalens_python analysis/analyze.py gcd.v
+datalens_python analysis/netlist_profiler.py gcd.v
 ```
 
 ```

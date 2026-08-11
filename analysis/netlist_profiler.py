@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """纯网表一键分析 —— 加载一次，全量输出"""
 
-import sys, os, re, math, datalens
+import sys, os, re, math, csv, datalens
 from collections import Counter
 import matplotlib.pyplot as plt
 import matplotlib
@@ -127,8 +127,37 @@ if max(degrees) > 0:
 else:
     print(f"  Rent:      N/A")
 
-# ════════════ 图表 ════════════
+# ════════════ CSV 导出 ════════════
 os.makedirs("out", exist_ok=True)
+
+# summary.csv
+with open("out/summary.csv", "w", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["design", "instances", "cell_types", "ports_in", "ports_out", "ports_inout",
+                "nets", "degree_mean", "degree_min", "degree_max",
+                "fanout_mean", "fanout_max", "rent_p", "rent_k"])
+    w.writerow([top.name, total, len(ref_counter), in_cnt, out_cnt, inout_cnt,
+                len(nets), sum(degrees)/max(len(degrees),1) if degrees else 0,
+                min(degrees) if degrees else 0, max(degrees) if degrees else 0,
+                avg_f, mx_f, round(rent_p, 3), round(10**logk, 1) if logk else 0])
+
+# cell_distribution.csv
+with open("out/cell_distribution.csv", "w", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["ref_name", "count", "percentage"])
+    for ref, cnt in sorted_cells:
+        w.writerow([ref, cnt, round(cnt/total*100, 2)])
+
+# connectivity.csv (per-instance degree)
+with open("out/connectivity.csv", "w", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["full_name", "ref_name", "degree"])
+    for inst in insts:
+        w.writerow([inst.full_name, inst.ref_name, len(inst_nets.get(inst.name, []))])
+
+print(f"  CSV → out/summary.csv  cell_distribution.csv  connectivity.csv")
+
+# ════════════ 图表 ════════════
 
 names = [n for n, _ in sorted_cells]
 counts = [c for _, c in sorted_cells]

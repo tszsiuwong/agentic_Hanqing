@@ -79,14 +79,14 @@ for fn, cnt in func_agg.most_common(15):
 
 # ════════════ 连接度 ════════════
 # Degree: 每个 inst 连接了多少条 net
-inst_nets = {i: set() for i in insts}
+inst_nets = {i.name: set() for i in insts}
 for net in nets:
     for pin in net.pins(datalens.design.HierFilterType.ALL, True):
         try:
             inst = pin.inst
-            if inst is not None: inst_nets[inst].add(net.name)
+            if inst is not None: inst_nets[inst.name].add(net.name)
         except: pass
-degrees = [len(inst_nets[i]) for i in insts]
+degrees = [len(inst_nets[i.name]) for i in insts]
 fanouts = [n.fanout_leaf_pin_count(is_flatten_view=False, include_inout=True) for n in nets]
 avg_f = sum(fanouts)/len(fanouts) if fanouts else 0
 mx_f = max(fanouts) if fanouts else 0
@@ -113,7 +113,7 @@ if max(degrees) > 0:
         if not grp: continue
         nets_used = set()
         for gi in grp:
-            nets_used |= inst_nets.get(gi, set())
+            nets_used |= inst_nets.get(gi.name, set())
         if len(grp) > 0 and len(nets_used) > 0:
             pts_c.append(math.log10(len(grp)))
             pts_t.append(math.log10(len(nets_used)))

@@ -36,9 +36,9 @@ func_agg = Counter()
 for ref, cnt in ref_counter.items():
     func_agg[func_name(ref)] += cnt
 
-in_cnt = sum(1 for p in ports if str(p.dir) == 'INPUT')
-out_cnt = sum(1 for p in ports if str(p.dir) == 'OUTPUT')
-inout_cnt = sum(1 for p in ports if str(p.dir) == 'INOUT')
+in_cnt = sum(1 for p in ports if p.is_input())
+out_cnt = sum(1 for p in ports if p.is_output())
+inout_cnt = sum(1 for p in ports if p.is_inout())
 
 SEP = "=" * 60
 
@@ -75,40 +75,52 @@ for fn, cnt in func_agg.most_common(15):
     print(f"  {fn:<16} {cnt:>6}  ({cnt/total*100:.1f}%)")
 
 # ════════════ 连接度 ════════════
-degrees = [i.pin_count() for i in insts]
+# Degree: 每个 inst 连接了多少条 net
+inst_nets = {i: set() for i in insts}
+for net in nets:
+    for pin in net.pins(datalens.design.HierFilterType.ALL, True):
+        try:
+            inst = pin.inst
+            if inst is not None: inst_nets[inst].add(net.name)
+        except: pass
+degrees = [len(inst_nets[i]) for i in insts]
 fanouts = [n.fanout_leaf_pin_count(is_flatten_view=False, include_inout=True) for n in nets]
-avg_d = sum(degrees)/len(degrees) if degrees else 0
 avg_f = sum(fanouts)/len(fanouts) if fanouts else 0
 mx_f = max(fanouts) if fanouts else 0
 
 print(f"\n{SEP}")
 print("  连接度")
 print(SEP)
-print(f"  Degree:    均值 {avg_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
+if max(degrees) > 0:
+    avg_d = sum(degrees)/len(degrees)
+    print(f"  Degree:    均值 {avg_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
+else:
+    print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
 print(f"  Fanout:    均值 {avg_f:.1f}  最大 {mx_f}")
 
 # ════════════ Rent's Rule ════════════
-n_groups = 10
-gs = [total//n_groups]*n_groups
-for i in range(total - sum(gs)): gs[i%n_groups] += 1
-pts_c, pts_t, idx = [], [], 0
-for g in gs:
-    grp = insts[idx:idx+g]; idx += g
-    if not grp: continue
-    nets_used = set()
-    for gi in grp:
-        for p in gi.pins:
-            if p.net: nets_used.add(p.net.name)
-    if len(grp) > 0 and len(nets_used) > 0:
-        pts_c.append(math.log10(len(grp)))
-        pts_t.append(math.log10(len(nets_used)))
-import numpy as np
-rent_p, logk = 0, 0
-if len(pts_c) >= 2:
-    A = np.vstack([np.ones_like(pts_c), pts_c]).T
-    logk, rent_p = np.linalg.lstsq(A, pts_t, rcond=None)[0]
-
-print(f"  Rent  p:   {rent_p:.3f}    k: {10**logk:.2f}")
+if max(degrees) > 0:
+    n_groups = 10
+    gs = [total//n_groups]*n_groups
+    for i in range(total - sum(gs)): gs[i%n_groups] += 1
+    pts_c, pts_t, idx = [], [], 0
+    for g in gs:
+        grp = insts[idx:idx+g]; idx += g
+        if not grp: continue
+        nets_used = set()
+        for gi in grp:
+            nets_used |= inst_nets.get(gi, set())
+        if len(grp) > 0 and len(nets_used) > 0:
+            pts_c.append(math.log10(len(grp)))
+            pts_t.append(math.log10(len(nets_used)))
+    import numpy as np
+    rent_p, logk = 0, 0
+    if len(pts_c) >= 2:
+        A = np.vstack([np.ones_like(pts_c), pts_c]).T
+        logk, rent_p = np.linalg.lstsq(A, pts_t, rcond=None)[0]
+    print(f"  Rent  p:   {rent_p:.3f}    k: {10**logk:.2f}")
+else:
+    print(f"  Rent:      N/A")
 
 # ════════════ 图表 ════════════
 os.makedirs("out", exist_ok=True)

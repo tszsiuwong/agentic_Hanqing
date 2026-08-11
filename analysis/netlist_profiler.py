@@ -24,7 +24,8 @@ top = datalens.design.present_project().present_module()
 insts = []
 for module in datalens.design.module_iter():
     for inst in module.inst_iter(False):
-        insts.append(inst)
+        if not inst.is_hier():
+            insts.append(inst)
 nets = top.nets
 ports = top.ports
 
@@ -108,7 +109,7 @@ if max(degrees) > 0:
     deg_arr = np.array(sorted(degrees))
     cg = np.arange(1, len(deg_arr)+1); cp = np.cumsum(deg_arr)
     start = len(cg)//4
-    if len(cg) > start:
+    if len(cg) > start and cp[start] > 0:
         p, lk = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1)
         rent_p, logk = p, lk
         rents = np.column_stack([cg, cp])
@@ -216,8 +217,9 @@ cell_deg = {}
 for inst in insts:
     cell_deg.setdefault(inst.ref_name, []).append(len(inst_nets.get(inst.name, [])))
 top12 = sorted(cell_deg.items(), key=lambda x: -sum(x[1])/max(len(x[1]),1))[:12]
-ax.barh(range(12), [sum(t[1])/max(len(t[1]),1) for t in top12], color='teal')
-ax.set_yticks(range(12)); ax.set_yticklabels([t[0] for t in top12]); ax.invert_yaxis()
+n_bar = len(top12)
+ax.barh(range(n_bar), [sum(t[1])/max(len(t[1]),1) for t in top12], color='teal')
+ax.set_yticks(range(n_bar)); ax.set_yticklabels([t[0] for t in top12]); ax.invert_yaxis()
 ax.set_xlabel('Avg Pin Count'); ax.set_title('Avg Degree by Cell Type')
 
 # 5. Rent's Rule

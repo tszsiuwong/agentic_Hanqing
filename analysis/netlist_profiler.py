@@ -101,28 +101,17 @@ else:
     print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
 print(f"  Fanout:    均值 {avg_f:.1f}  最大 {mx_f}")
 
-# ════════════ Rent's Rule ════════════
-rents = None
+# ════════════ Rent's Rule (standard cumulative method) ════════════
+rents = None; rent_p, logk = 0, 0
 if max(degrees) > 0:
-    n_groups = 10
-    gs = [total//n_groups]*n_groups
-    for i in range(total - sum(gs)): gs[i%n_groups] += 1
-    pts_c, pts_t, idx = [], [], 0
-    for g in gs:
-        grp = insts[idx:idx+g]; idx += g
-        if not grp: continue
-        nets_used = set()
-        for gi in grp:
-            nets_used |= inst_nets.get(gi.name, set())
-        if len(grp) > 0 and len(nets_used) > 0:
-            pts_c.append(math.log10(len(grp)))
-            pts_t.append(math.log10(len(nets_used)))
     import numpy as np
-    rent_p, logk = 0, 0
-    if len(pts_c) >= 2:
-        A = np.vstack([np.ones_like(pts_c), pts_c]).T
-        logk, rent_p = np.linalg.lstsq(A, pts_t, rcond=None)[0]
-        rents = np.column_stack([np.power(10, pts_c), np.power(10, pts_t)])  # actual values for plot
+    deg_arr = np.array(sorted(degrees))
+    cg = np.arange(1, len(deg_arr)+1); cp = np.cumsum(deg_arr)
+    start = len(cg)//4
+    if len(cg) > start:
+        p, lk = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1)
+        rent_p, logk = p, lk
+        rents = np.column_stack([cg, cp])
     print(f"  Rent  p:   {rent_p:.3f}    k: {10**logk:.2f}")
 else:
     print(f"  Rent:      N/A")
@@ -164,10 +153,14 @@ counts = [c for _, c in sorted_cells]
 
 # 单元分布图 (只画 Top 30)
 show_n = min(30, len(names))
-show_names = names[:show_n] + ['...'] * (len(names) > show_n)
-show_counts = counts[:show_n] + [sum(counts[show_n:])]
+if len(names) > show_n:
+    show_names = names[:show_n] + ['Other']
+    show_counts = counts[:show_n] + [sum(counts[show_n:])]
+else:
+    show_names = names[:show_n]
+    show_counts = counts[:show_n]
 colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(show_names))]
-colors[-1] = '#9E9E9E'  # Other in grey
+if len(names) > show_n: colors[-1] = '#9E9E9E'
 fig, ax = plt.subplots(figsize=(14, 5))
 ax.bar(range(len(show_names)), show_counts, color=colors)
 ax.set_xticks(range(len(show_names)))

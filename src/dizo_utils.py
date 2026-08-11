@@ -69,3 +69,15 @@ def get_cell_categories(top, top_n=None):
     if top_n:
         sorted_cats = sorted_cats[:top_n]
     return dict(sorted_cats)
+
+
+def get_inst_degrees_with_ref(top):
+    """一次遍历获取 degree 列表 + 按 ref 分组的 degree 列表，返回 (degrees, ref_degrees)"""
+    degrees = []
+    ref_deg = {}
+    for inst in top.inst_iter():
+        d = sum(1 for _ in inst.pin_iter())
+        degrees.append(d)
+        ref = inst.ref_name
+        ref_deg.setdefault(ref, []).append(d)
+    return degrees, ref_deg

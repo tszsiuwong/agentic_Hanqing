@@ -128,15 +128,19 @@ else:
 # ════════════ 图表 ════════════
 os.makedirs("out", exist_ok=True)
 
-# 单元分布图
-os.makedirs("out", exist_ok=True)
 names = [n for n, _ in sorted_cells]
 counts = [c for _, c in sorted_cells]
-colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(names))]
-fig, ax = plt.subplots(figsize=(max(12, len(names)*0.32), 5))
-ax.bar(range(len(names)), counts, color=colors)
-ax.set_xticks(range(len(names)))
-ax.set_xticklabels(names, rotation=45, ha='right', fontsize=8)
+
+# 单元分布图 (只画 Top 30)
+show_n = min(30, len(names))
+show_names = names[:show_n] + ['...'] * (len(names) > show_n)
+show_counts = counts[:show_n] + [sum(counts[show_n:])]
+colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(show_names))]
+colors[-1] = '#9E9E9E'  # Other in grey
+fig, ax = plt.subplots(figsize=(14, 5))
+ax.bar(range(len(show_names)), show_counts, color=colors)
+ax.set_xticks(range(len(show_names)))
+ax.set_xticklabels(show_names, rotation=45, ha='right', fontsize=8)
 ax.set_ylabel('Count'); ax.set_title('Cell Distribution')
 plt.tight_layout()
 plt.savefig("out/cells.png", dpi=150); plt.close()

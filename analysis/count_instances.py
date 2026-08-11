@@ -88,14 +88,19 @@ print(SEP)
 if png_dir != "." or '--png' in sys.argv:
     os.makedirs(png_dir, exist_ok=True)
 
-    # Cell 分布图
+    # Cell 分布图 (Top 30)
     names = [n for n, _ in sorted_cells]
     counts = [c for _, c in sorted_cells]
-    colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(names))]
-    fig, ax = plt.subplots(figsize=(max(12, len(names)*0.35), 5))
-    bars = ax.bar(range(len(names)), counts, color=colors)
-    ax.set_xticks(range(len(names)))
-    ax.set_xticklabels(names, rotation=45, ha='right', fontsize=8)
+    show_n = min(30, len(names))
+    show_names = names[:show_n] + ['Other'] * (len(names) > show_n)
+    show_counts = counts[:show_n] + [sum(counts[show_n:])]
+    colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(show_names))]
+    if len(names) > show_n:
+        colors[-1] = '#9E9E9E'
+    fig, ax = plt.subplots(figsize=(14, 5))
+    ax.bar(range(len(show_names)), show_counts, color=colors)
+    ax.set_xticks(range(len(show_names)))
+    ax.set_xticklabels(show_names, rotation=45, ha='right', fontsize=8)
     ax.set_ylabel('Count')
     ax.set_title('Cell Distribution')
     for bar, c in zip(bars, counts):

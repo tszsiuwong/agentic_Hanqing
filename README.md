@@ -34,6 +34,7 @@ python3.11 analysis/connectivity_analysis.py <设计.v>
 |-----------|------|------|
 | GCD | 301 | [报告](results/gcd/gcd_report.md) |
 | JPEG | 39,866 | [报告](results/jpeg/jpeg_report.md) |
+| ariane133 | 83,924 | [报告](results/ariane133/ariane133_report.md) |
 | NVDLA | 2,229,371 | [报告](results/nvdla/nvdla_report.md) |
 | superblue1 | 1,206,104 | [报告](results/superblue1/superblue1_report.md) |
 

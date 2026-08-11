@@ -1,58 +1,84 @@
 #!/usr/bin/env python3
-"""时序/组合比分析 + 高扇出"""
-import sys, os, time
-t0 = time.time()
-import sys, os
-import matplotlib
-matplotlib.use('Agg')
+"""时序/组合比分析 + 功能类别图"""
+
+import sys, re, datalens
+from collections import Counter
 import matplotlib.pyplot as plt
-import numpy as np
-from collections import Counter, defaultdict
-from src.dizo_utils import load_netlist, classify_seq_comb, get_net_fanouts, get_top_fanout_nets, get_cell_categories
+import matplotlib
+matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
-netlist = sys.argv[1] if len(sys.argv) > 1 else "/home/shared/benchmarks/nangate45_3D/gcd/2_2_floorplan_io.v"
-project, top = load_netlist(netlist)
+if len(sys.argv) < 6:
+    print(f"Usage: {sys.argv[0]} <tech.lef> <macro.lef> <design.def> <timing.lib> <output.png>")
+    sys.exit(1)
 
-seq_cells, comb_cells = classify_seq_comb(top)
-net_fanouts = get_net_fanouts(top)
-high_fo = get_top_fanout_nets(top, 10)
-cats = get_cell_categories(top, 8)
+tech_lef, macro_lef, def_file, lib_file, out_png = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
 
-seq_n, comb_n = len(seq_cells), len(comb_cells)
-total = seq_n + comb_n
+datalens.exchange.load_lef([tech_lef, macro_lef])
+datalens.exchange.load_def(def_file)
+datalens.exchange.load_lib([lib_file])
 
-fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+top = datalens.design.present_project().present_module()
+insts = top.insts
 
-# 1. Seq vs Comb
-ax = axes[0, 0]
-ax.pie([comb_n, seq_n], labels=[f'Comb ({comb_n})', f'Seq ({seq_n})'],
-       colors=['#5B9BD5', '#ED7D31'], autopct='%1.1f%%', startangle=90, explode=(0, 0.05))
-ax.set_title('Sequential vs Combinational')
+# 从 LIB 读哪些 cell 是 sequential
+lib = datalens.timinglib.current_lib()
+seq_cells = set()
+if lib:
+    for lc in lib.libcell_iter():
+        for lp in lc.libpin_iter():
+            for t in lp.timing_iter():
+                for rp in t.related_pin_iter():
+                    seq_cells.add(lc.name)
+                    break
+                break
+            if lc.name in seq_cells:
+                break
 
-# 2. High fanout nets
-ax = axes[0, 1]
-fo_names = [n[0][:20] for n in high_fo]; fo_cnt = [n[1] for n in high_fo]
-ax.barh(range(len(fo_names)), fo_cnt, color='coral')
-ax.set_yticks(range(len(fo_names))); ax.set_yticklabels(fo_names, fontsize=8); ax.invert_yaxis()
-ax.set_xlabel('Fanout'); ax.set_title(f'Top 10 High Fanout Nets')
+seq_cnt, comb_cnt = 0, 0
+func_agg = Counter()
 
-# 3. Cell categories
-ax = axes[1, 0]
-items = list(cats.items())
-ax.barh(range(len(items)), [c[1] for c in items], color='teal')
-ax.set_yticks(range(len(items))); ax.set_yticklabels([c[0] for c in items]); ax.invert_yaxis()
-ax.set_title('Cell Function Categories')
+def func_name(ref):
+    m = re.match(r'([A-Z]+[0-9]*)', ref)
+    return m.group(1) if m else ref
 
-# 4. Summary
-ax = axes[1, 1]; ax.axis('off')
-ax.text(0.05, 0.95,
-    f"Design: {top.name}\n\nSeq: {seq_n} ({seq_n/total*100:.1f}%)\nComb: {comb_n} ({comb_n/total*100:.1f}%)\nC/S ratio: {comb_n/max(seq_n,1):.1f}:1\n\nFanout: μ={np.mean(net_fanouts):.1f} max={max(net_fanouts)}\nTotal nets: {len(net_fanouts)}\n\nTop: {', '.join(f'{c[0]}({c[1]})' for c in list(cats.items())[:5])}",
-    transform=ax.transAxes, fontsize=9, verticalalignment='top',
-    fontfamily='monospace', bbox=dict(boxstyle='round', facecolor='lightyellow'))
+ref_counter = Counter(i.ref_name for i in insts)
+for ref, cnt in ref_counter.items():
+    if ref in seq_cells:
+        seq_cnt += cnt
+    else:
+        comb_cnt += cnt
+    func_agg[func_name(ref)] += cnt
 
-fig.suptitle(f'{top.name} Logic Analysis', fontsize=14, fontweight='bold')
+total = seq_cnt + comb_cnt
+
+print("=" * 60)
+print("时序/组合分析")
+print("=" * 60)
+print(f"{'组合逻辑':<20} {comb_cnt:>6}  ({comb_cnt/total*100:.1f}%)")
+print(f"{'时序逻辑':<20} {seq_cnt:>6}  ({seq_cnt/total*100:.1f}%)")
+if seq_cnt:
+    print(f"{'组合/时序比':<20} {comb_cnt/seq_cnt:.1f} : 1")
+print("-" * 60)
+for fn, cnt in func_agg.most_common(10):
+    print(f"  {fn:<16} {cnt:>6}")
+print("=" * 60)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+
+ax1.pie([comb_cnt, seq_cnt], labels=[f'Comb ({comb_cnt})', f'Seq ({seq_cnt})'],
+        colors=['#FF9800', '#4CAF50'], startangle=90, explode=(0, 0.05))
+ax1.set_title('Seq / Comb Ratio')
+
+top10 = func_agg.most_common(10)
+fnames, fcounts = [f for f,_ in top10], [c for _,c in top10]
+colors = ['#FF5722' if 'DFF' in f or 'SDFF' in f else '#2196F3' for f in fnames]
+ax2.barh(range(len(fnames)), fcounts, color=colors)
+ax2.set_yticks(range(len(fnames)))
+ax2.set_yticklabels(fnames)
+ax2.set_xlabel('Count'); ax2.set_title('Top Cell Functions')
+ax2.invert_yaxis()
+
+plt.suptitle('Seq / Comb Analysis')
 plt.tight_layout()
-out = os.path.expanduser(f'~/{top.name}_seq_comb.png')
-plt.savefig(out, dpi=150, bbox_inches='tight')
-print(f'Saved: {out}\nSeq: {seq_n} Comb: {comb_n} Ratio: {comb_n/max(seq_n,1):.1f}:1  [{time.time()-t0:.1f}s]')
-project.destroy()
+plt.savefig(out_png, dpi=150)
+print(f"Saved: {out_png}")

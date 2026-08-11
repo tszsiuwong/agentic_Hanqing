@@ -1,55 +1,49 @@
 #!/usr/bin/env python3
-"""网表单元分布可视化"""
-import sys, os, time
-t0 = time.time()
-import matplotlib
-matplotlib.use('Agg')
+"""单元分布分析 + 柱状图"""
+
+import sys, datalens
+from collections import Counter
 import matplotlib.pyplot as plt
-import numpy as np
-from src.dizo_utils import load_netlist, count_by_ref
+import matplotlib
+matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
-netlist = sys.argv[1] if len(sys.argv) > 1 else "/home/shared/benchmarks/nangate45_3D/gcd/2_2_floorplan_io.v"
-project, top = load_netlist(netlist)
+if len(sys.argv) < 5:
+    print(f"Usage: {sys.argv[0]} <tech.lef> <macro.lef> <design.def> <output.png>")
+    sys.exit(1)
 
-refs = count_by_ref(top)
-sorted_refs = sorted(refs.items(), key=lambda x: -x[1])
-labels = [r[0] for r in sorted_refs]
-counts = [r[1] for r in sorted_refs]
-total = sum(counts)
+tech_lef, macro_lef, def_file, out_png = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 
-fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+datalens.exchange.load_lef([tech_lef, macro_lef])
+datalens.exchange.load_def(def_file)
 
-# 左图: Top 15
-top_n = 15
-colors = plt.cm.Blues(np.linspace(0.4, 0.9, top_n))
-ax1 = axes[0]
-ax1.barh(range(top_n), counts[:top_n], color=colors)
-ax1.set_yticks(range(top_n))
-ax1.set_yticklabels(labels[:top_n])
-ax1.invert_yaxis()
-ax1.set_xlabel('Count')
-ax1.set_title(f'{top.name}  Top {top_n} Cell Types')
-for i, c in enumerate(counts[:top_n]):
-    ax1.text(c + max(counts[:top_n])*0.01, i, str(c), fontsize=9, va='center')
+top = datalens.design.present_project().present_module()
+counter = Counter(i.ref_name for i in top.insts)
+sorted_cells = counter.most_common()
+total = sum(c for _, c in sorted_cells)
 
-# 右图: 饼图
-ax2 = axes[1]
-pie_labels, pie_sizes = [], []
-other = 0
-for name, cnt in sorted_refs:
-    if cnt >= total * 0.005:  # >0.5%
-        pie_labels.append(f'{name} ({cnt})')
-        pie_sizes.append(cnt)
-    else:
-        other += cnt
-if other > 0:
-    pie_labels.append(f'Other ({other})')
-    pie_sizes.append(other)
-ax2.pie(pie_sizes, labels=pie_labels, autopct='%1.1f%%', startangle=90, textprops={'fontsize': 7})
-ax2.set_title(f'{top.name}  |  {total} inst  |  {len(refs)} types  |  {top.port_count()} ports  |  {top.net_count()} nets')
+print("=" * 60)
+print(f"{'Cell 类型':<28} {'数量':>6} {'占比':>8}")
+print("-" * 60)
+for name, count in sorted_cells:
+    print(f"{name:<28} {count:>6} {count/total*100:>7.1f}%")
+print("=" * 60)
+print(f"{'总计':<28} {total:>6}")
 
+top3 = sorted_cells[:3]
+print(f"\nTop 3 ({', '.join(n for n,_ in top3)}) = {sum(c for _,c in top3)/total*100:.0f}%")
+
+names = [n for n, _ in sorted_cells]
+counts = [c for _, c in sorted_cells]
+colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(names))]
+
+plt.figure(figsize=(max(12, len(names)*0.35), 5))
+bars = plt.bar(range(len(names)), counts, color=colors)
+plt.xticks(range(len(names)), names, rotation=45, ha='right', fontsize=8)
+plt.ylabel('Count')
+plt.title('Cell Distribution')
+for bar, c in zip(bars, counts):
+    plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(counts)*0.005,
+             str(c), ha='center', va='bottom', fontsize=6)
 plt.tight_layout()
-out = os.path.expanduser(f'~/{top.name}_cells.png')
-plt.savefig(out, dpi=150, bbox_inches='tight')
-print(f'Saved: {out}  [{time.time()-t0:.1f}s]')
-project.destroy()
+plt.savefig(out_png, dpi=150)
+print(f"Saved: {out_png}")

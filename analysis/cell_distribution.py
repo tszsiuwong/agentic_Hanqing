@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""单元分布分析 + 柱状图"""
+"""单元分布分析 + 柱状图 —— 支持 DEF 或 Verilog"""
 
 import sys, datalens
 from collections import Counter
@@ -7,14 +7,21 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
-if len(sys.argv) < 5:
-    print(f"Usage: {sys.argv[0]} <tech.lef> <macro.lef> <design.def> <output.png>")
+if len(sys.argv) < 3:
+    print(f"Usage: {sys.argv[0]} <design.def|design.v> <output.png> [tech.lef macro.lef ...]")
     sys.exit(1)
 
-tech_lef, macro_lef, def_file, out_png = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+main_file, out_png = sys.argv[1], sys.argv[2]
 
-datalens.exchange.load_lef([tech_lef, macro_lef])
-datalens.exchange.load_def(def_file)
+if main_file.endswith('.v') or main_file.endswith('.v.gz'):
+    datalens.exchange.load_netlist([main_file])
+elif main_file.endswith('.def'):
+    lef_files = sys.argv[3:] if len(sys.argv) > 3 else []
+    datalens.exchange.load_lef(lef_files)
+    datalens.exchange.load_def(main_file)
+else:
+    print(f"Unknown format: {main_file}")
+    sys.exit(1)
 
 top = datalens.design.present_project().present_module()
 counter = Counter(i.ref_name for i in top.insts)
@@ -30,7 +37,8 @@ print("=" * 60)
 print(f"{'总计':<28} {total:>6}")
 
 top3 = sorted_cells[:3]
-print(f"\nTop 3 ({', '.join(n for n,_ in top3)}) = {sum(c for _,c in top3)/total*100:.0f}%")
+if top3:
+    print(f"\nTop 3 ({', '.join(n for n,_ in top3)}) = {sum(c for _,c in top3)/total*100:.0f}%")
 
 names = [n for n, _ in sorted_cells]
 counts = [c for _, c in sorted_cells]

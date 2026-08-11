@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""时序/组合比分析 + 功能类别图"""
+"""时序/组合比分析 —— 需要 LIB + DEF"""
 
 import sys, re, datalens
 from collections import Counter
@@ -7,31 +7,31 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
-if len(sys.argv) < 6:
-    print(f"Usage: {sys.argv[0]} <tech.lef> <macro.lef> <design.def> <timing.lib> <output.png>")
+if len(sys.argv) < 4:
+    print(f"Usage: {sys.argv[0]} <design.def> <timing.lib> <output.png> [tech.lef macro.lef ...]")
     sys.exit(1)
 
-tech_lef, macro_lef, def_file, lib_file, out_png = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
+def_file, lib_file, out_png = sys.argv[1], sys.argv[2], sys.argv[3]
+lef_files = sys.argv[4:] if len(sys.argv) > 4 else []
 
-datalens.exchange.load_lef([tech_lef, macro_lef])
+datalens.exchange.load_lef(lef_files)
 datalens.exchange.load_def(def_file)
 datalens.exchange.load_lib([lib_file])
 
 top = datalens.design.present_project().present_module()
 insts = top.insts
 
-# 从 LIB 读哪些 cell 是 sequential
 lib = datalens.timinglib.current_lib()
 seq_cells = set()
 if lib:
     for lc in lib.libcell_iter():
+        has_timing = False
         for lp in lc.libpin_iter():
             for t in lp.timing_iter():
-                for rp in t.related_pin_iter():
-                    seq_cells.add(lc.name)
-                    break
+                has_timing = True
                 break
-            if lc.name in seq_cells:
+            if has_timing:
+                seq_cells.add(lc.name)
                 break
 
 seq_cnt, comb_cnt = 0, 0
@@ -64,7 +64,6 @@ for fn, cnt in func_agg.most_common(10):
 print("=" * 60)
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-
 ax1.pie([comb_cnt, seq_cnt], labels=[f'Comb ({comb_cnt})', f'Seq ({seq_cnt})'],
         colors=['#FF9800', '#4CAF50'], startangle=90, explode=(0, 0.05))
 ax1.set_title('Seq / Comb Ratio')

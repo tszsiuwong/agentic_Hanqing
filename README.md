@@ -1,34 +1,31 @@
 # agentic_Hanqing
 
-基于 Dizo 的 EDA 网表分析工具集。
-
-## 环境
-
-```bash
-export LD_LIBRARY_PATH=$HOME/local/python3/lib:$HOME/dizo/third_party/spring_rls/lib:$HOME/dizo/build/dizo/lib:$HOME/dizo/build/dizo/lib/modules/py:$HOME/dizo/build/dizo/parser/tclio/bin:$LD_LIBRARY_PATH
-export PYTHONPATH=$HOME/dizo/build/dizo/lib/modules/py
-export PATH=$HOME/local/python3/bin:$HOME/local/bin:$HOME/.local/bin:$PATH
-```
+基于 Dizo 的 EDA 设计分析工具集。
 
 ## 结构
 
 ```
-├── analysis/              # 通用分析脚本（适用任意网表）
-│   ├── count_instances.py
-│   ├── connectivity_analysis.py
-│   ├── seq_comb_analysis.py
-│   └── cell_distribution.py
-├── src/dizo_utils.py      # 可复用工具库
-├── results/<benchmark>/   # 各 benchmark 的分析结果
-└── docs/                  # 参考文档
+├── analysis/                    # 分析脚本（[详见](analysis/README.md)）
+│   ├── analyze.py               # 一键分析流水线
+│   ├── count_instances.py       # 基础统计 + 单元分布
+│   ├── connectivity_analysis.py # Degree / Fanout / Rent
+│   ├── cell_area.py             # 单元面积/几何（需 LEF）
+│   ├── timing_analysis.py       # 时序/组合比（需 Liberty）
+│   └── placement_analysis.py    # 物理布局（需 DEF + LEF）
+├── src/dizo_utils.py            # 可复用工具库
+├── results/<benchmark>/         # 各 benchmark 分析结果
+└── docs/                        # 参考文档
 ```
 
-## 使用
+## 快速开始
 
 ```bash
-python3.11 analysis/count_instances.py <网表.v>
-python3.11 analysis/connectivity_analysis.py <网表.v>
-python3.11 analysis/seq_comb_analysis.py <网表.v>
+# 一键分析
+python3.11 analysis/analyze.py <设计.v>
+
+# 分步分析
+python3.11 analysis/count_instances.py <设计.v>
+python3.11 analysis/connectivity_analysis.py <设计.v>
 ```
 
 ## 案例
@@ -39,4 +36,4 @@ python3.11 analysis/seq_comb_analysis.py <网表.v>
 | JPEG | 39,866 | [报告](results/jpeg/jpeg_report.md) |
 | NVDLA | 2,229,371 | [报告](results/nvdla/nvdla_report.md) |
 
-[Benchmark 对比](results/design_characterization.md)
+[设计特征化对比](results/design_characterization.md)

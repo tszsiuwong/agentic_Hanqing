@@ -129,6 +129,7 @@ else:
 os.makedirs("out", exist_ok=True)
 
 # 单元分布图
+os.makedirs("out", exist_ok=True)
 names = [n for n, _ in sorted_cells]
 counts = [c for _, c in sorted_cells]
 colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(names))]

@@ -1,0 +1,2 @@
+design,instances,cell_types,ports_in,ports_out,ports_inout,nets,degree_mean,degree_min,degree_max,fanout_mean,fanout_max,rent_p,rent_k
+ct_top,938955,64,582,806,0,957583,3.8631265609108,2,289,3.7905664574245783,84231,1.376,0.0

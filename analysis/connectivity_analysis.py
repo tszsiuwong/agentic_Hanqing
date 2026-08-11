@@ -7,17 +7,23 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
-if len(sys.argv) < 3:
-    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> <out_dir> [tech.lef macro.lef ...]")
+if len(sys.argv) < 2:
+    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [out_dir] [tech.lef macro.lef ...]")
     sys.exit(1)
 
-main_file, out_dir = sys.argv[1], sys.argv[2]
+main_file = sys.argv[1]
+# out_dir: 第二个参数如果不像文件路径就当目录，否则默认 .
+args = sys.argv[2:]
+if args and not any(args[0].endswith(ext) for ext in ('.v', '.v.gz', '.def', '.lef', '.lib', '.lib.gz')):
+    out_dir = args[0]; args = args[1:]
+else:
+    out_dir = "."
+lef_files = [a for a in args if a.endswith('.lef') or a.endswith('.lef.gz')]
 os.makedirs(out_dir, exist_ok=True)
 
 if main_file.endswith('.v') or main_file.endswith('.v.gz'):
     datalens.exchange.load_netlist([main_file])
 else:
-    lef_files = sys.argv[3:] if len(sys.argv) > 3 else []
     if lef_files: datalens.exchange.load_lef(lef_files)
     datalens.exchange.load_def(main_file)
 

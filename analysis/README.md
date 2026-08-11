@@ -38,6 +38,6 @@ datalens_python analysis/timing_analysis.py design.v tech.lef cells.lef timing.l
 datalens_python analysis/placement_analysis.py design.def tech.lef cells.lef
 
 # Step 5
-datalens_python analysis/connectivity_analysis.py design.v out/
-datalens_python analysis/connectivity_analysis.py design.def out/ tech.lef cells.lef
+datalens_python analysis/connectivity_analysis.py design.v
+datalens_python analysis/connectivity_analysis.py design.def tech.lef cells.lef
 ```

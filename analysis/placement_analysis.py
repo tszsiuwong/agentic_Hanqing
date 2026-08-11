@@ -15,7 +15,10 @@ datalens.exchange.load_lef(lef_files)
 datalens.exchange.load_def(def_file)
 
 top = datalens.design.present_project().present_module()
-insts = top.insts
+insts = []
+for module in datalens.design.module_iter():
+    for inst in module.inst_iter(False):
+        insts.append(inst)
 
 # placement 状态
 placed = unplaced = fixed = 0

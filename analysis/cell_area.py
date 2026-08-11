@@ -18,7 +18,10 @@ else:
     datalens.exchange.load_def(design_file)
 
 top = datalens.design.present_project().present_module()
-insts = top.insts
+insts = []
+for module in datalens.design.module_iter():
+    for inst in module.inst_iter(False):
+        insts.append(inst)
 ref_counter = Counter(i.ref_name for i in insts)
 
 tech = None

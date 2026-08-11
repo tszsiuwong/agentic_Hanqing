@@ -88,7 +88,7 @@ ax.text(0.05, 0.95, info, transform=ax.transAxes, fontsize=10,
 
 fig.suptitle(f'{top.name}  Connectivity Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
-out = os.path.expanduser(f'~/{top.name}_connectivity.png')
+out = f'{top.name}_connectivity.png'
 plt.savefig(out, dpi=150, bbox_inches='tight')
 print(f'Saved: {out}\nRent p={p:.3f} k={k:.1f}  Degree μ={deg_mean:.1f}  Fanout μ={fo_mean:.1f}  [{time.time()-t0:.1f}s]')
 project.destroy()

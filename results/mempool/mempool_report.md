@@ -20,7 +20,7 @@ MemPool 众核处理器，256 个 Snitch RISC-V 核心。
 | Degree 均值 | 4.1 (σ=1.7) |
 | Degree 范围 | 2–523 |
 | Fanout 均值 | 3.5 (P95=8) |
-| Fanout 最大 | 271,528 |
+| 高扇出线 (FO>1000) | — |
 
 ## Rent's Rule
 

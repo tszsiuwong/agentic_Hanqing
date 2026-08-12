@@ -101,7 +101,10 @@ if max(degrees) > 0:
     print(f"  Degree:    均值 {avg_d:.1f}  σ={std_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
 else:
     print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
-print(f"  Fanout:    均值 {avg_f:.1f}  P95={sorted(fanouts)[int(len(fanouts)*0.95)] if fanouts else 0}  max={mx_f}")
+fo_sorted = sorted(fanouts) if fanouts else [0]
+fo_95 = fo_sorted[int(len(fo_sorted)*0.95)] if len(fo_sorted) > 0 else 0
+hi_fo = sum(1 for f in fanouts if f > 1000)
+print(f"  Fanout:    均值 {avg_f:.1f}  P95={fo_95}  异常高扇出(FO>1000): {hi_fo} 条")
 
 # ════════════ Rent's Rule (standard cumulative method) ════════════
 rents = None; rent_p, logk = 0, 0

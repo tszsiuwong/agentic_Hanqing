@@ -251,7 +251,7 @@ Ports: {len(ports)}  Nets: {len(nets)}
 
 Degree:  [{min(degrees) if degrees else 0}, {max(degrees) if degrees else 0}]
   μ={d_mean:.1f}  σ={d_std:.1f}
-Fanout:  μ={f_mean:.1f}  max={f_max:,}
+Fanout:  μ={f_mean:.1f}  P95={fo_95}
 Rent:    {rp_text}"""
 ax.text(0.05, 0.95, info, transform=ax.transAxes, fontsize=10,
         verticalalignment='top', fontfamily='monospace',

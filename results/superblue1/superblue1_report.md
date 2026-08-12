@@ -19,7 +19,7 @@ ICCAD 2015 竞赛 Benchmark，120 万门工业级设计。
 |------|------|
 | Degree 均值 | 3.1 |
 | Degree 范围 | 1–1243 |
-| Fanout 均值 | 3.1 |
+| Fanout 均值 | — |
 | Fanout 最大 | 7213 |
 
 ## Rent's Rule

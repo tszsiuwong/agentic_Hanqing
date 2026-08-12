@@ -18,7 +18,7 @@
 | 指标 | 数值 |
 |------|------|
 | Degree 均值 | 4.0 |
-| Fanout 均值 | — |
+| Fanout 均值 | 3.1 (P95=5) |
 
 ![连接度分析](NV_nvdla_connectivity.png)
 

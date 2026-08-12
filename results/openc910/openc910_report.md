@@ -19,7 +19,7 @@
 |------|------|
 | Degree 均值 | 3.9 (σ=1.2) |
 | Degree 范围 | 2–289 |
-| Fanout 均值 | — |
+| Fanout 均值 | 3.8 (P95=9) |
 | Fanout 最大 | 84,231 |
 
 ## Rent's Rule

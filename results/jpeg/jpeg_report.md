@@ -18,7 +18,7 @@
 | 指标 | 数值 |
 |------|------|
 | Degree 均值 | 3.6 |
-| Fanout 均值 | — |
+| Fanout 均值 | 2.9 (P95=5) |
 
 ![连接度分析](jpeg_encoder_connectivity.png)
 

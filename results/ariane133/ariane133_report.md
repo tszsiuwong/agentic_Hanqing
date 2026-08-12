@@ -19,7 +19,7 @@ Ariane RISC-V 64 位处理器核心。
 |------|------|
 | Degree 均值 | 4.6 |
 | Degree 范围 | 2–44 |
-| Fanout 均值 | — |
+| Fanout 均值 | 3.6 (P95=6) |
 | Fanout 最大 | 19,629 |
 
 ## Rent's Rule

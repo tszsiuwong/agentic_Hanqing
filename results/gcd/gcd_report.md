@@ -31,7 +31,7 @@ python3.11 analysis/netlist_profiler.py <gcd.v>
 |------|------|
 | Degree 均值 | 3.5 (σ=1.2) |
 | Degree 范围 | 2–6 |
-| Fanout 均值 | — |
+| Fanout 均值 | 2.9 (P95=5) |
 | Fanout 最大 | 35 |
 
 ---

@@ -88,7 +88,14 @@ for net in nets:
             if inst is not None: inst_nets[inst.name].add(net.name)
         except: pass
 degrees = [len(inst_nets[i.name]) for i in insts]
-fanouts = [n.fanout_leaf_pin_count(is_flatten_view=False, include_inout=True) for n in nets]
+fanouts = []
+hi_fo_nets = []
+for n in nets:
+    fo = n.fanout_leaf_pin_count(is_flatten_view=False, include_inout=True)
+    fanouts.append(fo)
+    if fo > 1000:
+        hi_fo_nets.append((n.name, fo))
+hi_fo_nets.sort(key=lambda x: -x[1])
 avg_f = sum(fanouts)/len(fanouts) if fanouts else 0
 mx_f = max(fanouts) if fanouts else 0
 
@@ -103,8 +110,10 @@ else:
     print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
 fo_sorted = sorted(fanouts) if fanouts else [0]
 fo_95 = fo_sorted[int(len(fo_sorted)*0.95)] if len(fo_sorted) > 0 else 0
-hi_fo = sum(1 for f in fanouts if f > 1000)
-print(f"  Fanout:    均值 {avg_f:.1f}  P95={fo_95}  异常高扇出(FO>1000): {hi_fo} 条")
+print(f"  Fanout:    均值 {avg_f:.1f}  P95={fo_95}  异常高扇出(FO>1000): {len(hi_fo_nets)} 条")
+if hi_fo_nets:
+    for name, fo in hi_fo_nets[:10]:
+        print(f"    '{name}' (FO={fo})")
 
 # ════════════ Rent's Rule (standard cumulative method) ════════════
 rents = None; rent_p, logk = 0, 0

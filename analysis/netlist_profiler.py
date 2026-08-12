@@ -101,7 +101,7 @@ if max(degrees) > 0:
     print(f"  Degree:    均值 {avg_d:.1f}  σ={std_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
 else:
     print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
-print(f"  Fanout:    均值 {avg_f:.1f}  最大 {mx_f}")
+print(f"  Fanout:    均值 {avg_f:.1f}  P95={sorted(fanouts)[int(len(fanouts)*0.95)] if fanouts else 0}  max={mx_f}")
 
 # ════════════ Rent's Rule (standard cumulative method) ════════════
 rents = None; rent_p, logk = 0, 0

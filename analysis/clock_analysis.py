@@ -44,6 +44,7 @@ for module in datalens.design.module_iter():
             insts.append(inst)
 nets = top.nets
 ports = top.ports
+net_by_name = {n.name: n for n in nets}
 
 SEP = "=" * 64
 
@@ -101,12 +102,7 @@ def trace_clock_root(netname, max_depth=50):
         if cur is None or cur in seen:
             break
         seen.add(cur)
-        # 通过名字找到 net 对象
-        net_obj = None
-        for n in nets:
-            if n.name == cur:
-                net_obj = n
-                break
+        net_obj = net_by_name.get(cur)
         if net_obj is None:
             break
         try:
@@ -172,6 +168,8 @@ print(f"\n[3] 时钟域（{len(clock_domains)} 个）")
 for root, ffs in sorted(clock_domains.items(), key=lambda x: -len(x[1])):
     print(f"  时钟根 '{root}': {len(ffs)} 个寄存器")
 
+ICG_OUTPUT_PINS = {'Q', 'Z', 'ECK', 'GCLK', 'GCK', 'Y', 'OUT', 'ZN'}
+
 # 时钟门控统计
 print(f"\n[4] 时钟门控")
 if icg_cells:
@@ -182,7 +180,7 @@ if icg_cells:
     gated_ff = set()
     for icg in icg_cells:
         for pin in icg.pins:
-            if pin.is_output():
+            if pin.name.upper() in ICG_OUTPUT_PINS:
                 nn = pin.net
                 if nn:
                     for p2 in nn.fanout_pins(datalens.design.PinMode.ALL, True):

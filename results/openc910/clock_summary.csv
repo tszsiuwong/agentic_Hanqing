@@ -1,0 +1,2 @@
+design,seq_cells,icg_cells,clkbuf_cells,comb_cells,clock_domains,ff_with_reset,ff_with_enable
+ct_top,87305,0,0,851650,2,72843,0

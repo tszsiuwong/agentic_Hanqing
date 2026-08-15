@@ -87,7 +87,28 @@ for net in nets:
             inst = pin.inst
             if inst is not None: inst_nets[inst.name].add(net.name)
         except: pass
-degrees = [len(inst_nets[i.name]) for i in insts]
+inst_degree = {i.name: len(inst_nets[i.name]) for i in insts}
+
+# 宏单元识别（SRAM/ROM/regfile/pad 等），纯网表无 LEF，靠关键词 + degree 阈值
+MACRO_DEGREE_THRESHOLD = 32
+MACRO_KEYWORDS = ['fakeram', 'sram', 'rom', 'regfile', 'dffram', 'dpram',
+                  'spram', 'rf_', '_ram_', 'dpad', 'pad_', 'pll', 'clkgen']
+def is_macro_ref(ref):
+    r = ref.lower()
+    return any(k in r for k in MACRO_KEYWORDS)
+
+macro_insts = []    # (name, ref_name, degree)
+stdcell_insts = []  # (name, ref_name, degree)
+for i in insts:
+    d = inst_degree[i.name]
+    if is_macro_ref(i.ref_name) or d > MACRO_DEGREE_THRESHOLD:
+        macro_insts.append((i.name, i.ref_name, d))
+    else:
+        stdcell_insts.append((i.name, i.ref_name, d))
+
+stdcell_degrees = [d for _, _, d in stdcell_insts]
+macro_degrees = [d for _, _, d in macro_insts]
+macro_ref_counter = Counter(r for _, r, _ in macro_insts)
 
 # 网分类：时钟/复位/常量 vs 普通信号
 def classify_net(name):
@@ -117,13 +138,27 @@ fo_max_signal = max(signal_fanouts) if signal_fanouts else 0
 print(f"\n{SEP}")
 print("  连接度")
 print(SEP)
-if max(degrees) > 0:
-    avg_d = sum(degrees)/len(degrees)
-    std_d = (sum((x-avg_d)**2 for x in degrees)/len(degrees))**0.5
-    print(f"  Degree:    均值 {avg_d:.1f}  σ={std_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
+if stdcell_degrees:
+    avg_d = sum(stdcell_degrees)/len(stdcell_degrees)
+    std_d = (sum((x-avg_d)**2 for x in stdcell_degrees)/len(stdcell_degrees))**0.5
+    print(f"  Degree (标准单元): 均值 {avg_d:.1f}  σ={std_d:.1f}  范围 {min(stdcell_degrees)}–{max(stdcell_degrees)}")
 else:
-    print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
+    print(f"  Degree (标准单元): N/A")
 print(f"  Fanout (信号网): 均值 {avg_f:.1f}  P95={fo_95}  最大 {fo_max_signal}")
+
+# 宏单元单独列出（不计入 Degree 统计）
+print(f"\n{SEP}")
+print("  宏单元（SRAM/ROM/regfile/pad）—— 单独分析，不计入 Degree 统计")
+print(SEP)
+if macro_insts:
+    print(f"  宏单元总数: {len(macro_insts)}  ({len(macro_insts)/total*100:.2f}% of {total})")
+    print(f"  宏单元类型: {len(macro_ref_counter)} 种")
+    print()
+    for ref, cnt in macro_ref_counter.most_common(15):
+        avg_md = sum(d for _, r, d in macro_insts if r == ref) / max(cnt, 1)
+        print(f"  {ref:<28} ×{cnt:<6}  degree≈{avg_md:.0f}")
+else:
+    print("  无宏单元")
 
 # 特殊网单独列出（时钟/复位/常量，不混入统计）
 print(f"\n{SEP}")
@@ -144,16 +179,16 @@ else:
 
 # ════════════ Rent's Rule (standard cumulative method) ════════════
 rents = None; rent_p, logk = 0, 0
-if max(degrees) > 0:
+if stdcell_degrees:
     import numpy as np
-    deg_arr = np.array(sorted(degrees))
+    deg_arr = np.array(sorted(stdcell_degrees))
     cg = np.arange(1, len(deg_arr)+1); cp = np.cumsum(deg_arr)
     start = len(cg)//4
     if len(cg) > start and cp[start] > 0:
         p, lk = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1)
         rent_p, logk = p, lk
         rents = np.column_stack([cg, cp])
-    print(f"  Rent  p:   {rent_p:.3f}    k: {10**logk:.2f}")
+    print(f"  Rent  p:   {rent_p:.3f}    k: {10**logk:.2f}  (标准单元)")
 else:
     print(f"  Rent:      N/A")
 
@@ -164,7 +199,8 @@ os.makedirs("out", exist_ok=True)
 with open("out/summary.csv", "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["design", "instances", "cell_types", "ports_in", "ports_out", "ports_inout",
-                "nets", "degree_mean", "degree_min", "degree_max",
+                "nets", "stdcell_insts", "macro_insts", "macro_types",
+                "degree_mean", "degree_min", "degree_max",
                 "fanout_mean", "fanout_p95", "fanout_max_signal",
                 "special_clock", "special_reset", "special_const",
                 "rent_p", "rent_k"])
@@ -172,11 +208,20 @@ with open("out/summary.csv", "w", newline="") as f:
     n_reset = sum(1 for _, _, c in special_nets if c == 'reset')
     n_const = sum(1 for _, _, c in special_nets if c == 'constant')
     w.writerow([top.name, total, len(ref_counter), in_cnt, out_cnt, inout_cnt,
-                len(nets), sum(degrees)/max(len(degrees),1) if degrees else 0,
-                min(degrees) if degrees else 0, max(degrees) if degrees else 0,
+                len(nets), len(stdcell_insts), len(macro_insts), len(macro_ref_counter),
+                sum(stdcell_degrees)/max(len(stdcell_degrees),1) if stdcell_degrees else 0,
+                min(stdcell_degrees) if stdcell_degrees else 0, max(stdcell_degrees) if stdcell_degrees else 0,
                 round(avg_f, 2), fo_95, fo_max_signal,
                 n_clock, n_reset, n_const,
                 round(rent_p, 3), round(10**logk, 1) if logk else 0])
+
+# macro_cells.csv (宏单元导出)
+with open("out/macro_cells.csv", "w", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["ref_name", "count", "avg_degree"])
+    for ref, cnt in macro_ref_counter.most_common():
+        avg_md = sum(d for _, r, d in macro_insts if r == ref) / max(cnt, 1)
+        w.writerow([ref, cnt, round(avg_md, 1)])
 
 # special_nets.csv (高扇出网单独导出)
 with open("out/special_nets.csv", "w", newline="") as f:
@@ -195,11 +240,13 @@ with open("out/cell_distribution.csv", "w", newline="") as f:
 # connectivity.csv (per-instance degree)
 with open("out/connectivity.csv", "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["full_name", "ref_name", "degree"])
+    w.writerow(["full_name", "ref_name", "degree", "cell_class"])
     for inst in insts:
-        w.writerow([inst.full_name, inst.ref_name, len(inst_nets.get(inst.name, []))])
+        d = inst_degree.get(inst.name, 0)
+        cls = 'macro' if (is_macro_ref(inst.ref_name) or d > MACRO_DEGREE_THRESHOLD) else 'stdcell'
+        w.writerow([inst.full_name, inst.ref_name, d, cls])
 
-print(f"  CSV → out/summary.csv  special_nets.csv  cell_distribution.csv  connectivity.csv")
+print(f"  CSV → out/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv  connectivity.csv")
 
 # ════════════ 图表 ════════════
 
@@ -232,20 +279,21 @@ plt.savefig("out/cell_functions.png", dpi=150); plt.close()
 
 # 连接度 + Rent 图 (6-panel)
 fig, axes = plt.subplots(2, 3, figsize=(18, 10))
-d_mean = sum(degrees)/max(len(degrees),1); d_std = (sum((x-d_mean)**2 for x in degrees)/max(len(degrees),1))**0.5 if degrees else 0
+d_mean = sum(stdcell_degrees)/max(len(stdcell_degrees),1) if stdcell_degrees else 0
+d_std = (sum((x-d_mean)**2 for x in stdcell_degrees)/max(len(stdcell_degrees),1))**0.5 if stdcell_degrees else 0
 f_mean = avg_f; f_max = fo_max_signal
-deg_arr = sorted(degrees); fo_vals = [f for f in signal_fanouts if f > 0]
-unique_deg = len(set(degrees)); unique_fo = len(set(fo_vals))
-is_large = len(degrees) > 100000
+deg_arr = sorted(stdcell_degrees); fo_vals = [f for f in signal_fanouts if f > 0]
+unique_deg = len(set(stdcell_degrees)); unique_fo = len(set(fo_vals))
+is_large = len(stdcell_degrees) > 100000
 
-# 1. Degree Distribution
+# 1. Degree Distribution (标准单元)
 ax = axes[0, 0]
 if unique_deg <= 30 and not is_large:
-    dc = sorted(Counter(degrees).items())
+    dc = sorted(Counter(stdcell_degrees).items())
     ax.bar(*zip(*dc), color='steelblue', edgecolor='white')
 else:
-    ax.hist(degrees, bins=min(20, unique_deg), color='steelblue', edgecolor='white')
-ax.set_xlabel('Pin Count'); ax.set_title(f'Degree  μ={d_mean:.1f}  σ={d_std:.1f}')
+    ax.hist(stdcell_degrees, bins=min(20, unique_deg), color='steelblue', edgecolor='white')
+ax.set_xlabel('Pin Count'); ax.set_title(f'Degree (stdcell)  μ={d_mean:.1f}  σ={d_std:.1f}')
 
 # 2. Fanout Distribution
 ax = axes[0, 1]
@@ -265,16 +313,16 @@ ax.plot(sample, np.linspace(0, 100, len(sample)), 'b-', lw=2)
 ax.set_xlabel('Degree'); ax.set_ylabel('Cumulative %')
 ax.set_title('Degree CDF'); ax.grid(True, alpha=0.3)
 
-# 4. Cell Type Avg Degree
+# 4. Cell Type Avg Degree (标准单元)
 ax = axes[1, 0]
 cell_deg = {}
-for inst in insts:
-    cell_deg.setdefault(inst.ref_name, []).append(len(inst_nets.get(inst.name, [])))
+for name, ref, d in stdcell_insts:
+    cell_deg.setdefault(ref, []).append(d)
 top12 = sorted(cell_deg.items(), key=lambda x: -sum(x[1])/max(len(x[1]),1))[:12]
 n_bar = len(top12)
 ax.barh(range(n_bar), [sum(t[1])/max(len(t[1]),1) for t in top12], color='teal')
 ax.set_yticks(range(n_bar)); ax.set_yticklabels([t[0] for t in top12]); ax.invert_yaxis()
-ax.set_xlabel('Avg Pin Count'); ax.set_title('Avg Degree by Cell Type')
+ax.set_xlabel('Avg Pin Count'); ax.set_title('Avg Degree by Cell Type (stdcell)')
 
 # 5. Rent's Rule
 ax = axes[1, 1]
@@ -296,10 +344,11 @@ ax.set_title(f"Rent's Rule  {rp_text}"); ax.grid(True, alpha=0.3)
 ax = axes[1, 2]; ax.axis('off')
 info = f"""Design: {top.name}
 Instances: {total:,}
+  stdcell={len(stdcell_insts):,}  macro={len(macro_insts):,}
 Cell Types: {len(ref_counter)}
 Ports: {len(ports)}  Nets: {len(nets)}
 
-Degree:  [{min(degrees) if degrees else 0}, {max(degrees) if degrees else 0}]
+Degree (stdcell):  [{min(stdcell_degrees) if stdcell_degrees else 0}, {max(stdcell_degrees) if stdcell_degrees else 0}]
   mu={d_mean:.1f}  sigma={d_std:.1f}
 Fanout (signal):  mu={f_mean:.1f}  P95={fo_95}
   special: clk={n_clock} rst={n_reset} const={n_const}

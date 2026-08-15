@@ -1,2 +1,2 @@
-design,instances,cell_types,ports_in,ports_out,ports_inout,nets,degree_mean,degree_min,degree_max,fanout_mean,fanout_p95,fanout_max_signal,special_clock,special_reset,special_const,rent_p,rent_k
-ariane,83924,77,221,279,0,109590,4.559863686192269,2,44,3.23,6,362,1,2,2,1.377,0.1
+design,instances,cell_types,ports_in,ports_out,ports_inout,nets,stdcell_insts,macro_insts,macro_types,degree_mean,degree_min,degree_max,fanout_mean,fanout_p95,fanout_max_signal,special_clock,special_reset,special_const,rent_p,rent_k
+ariane,83924,77,221,279,0,109590,83880,44,1,4.539270386266095,2,7,3.23,6,362,1,2,2,1.377,0.1

@@ -246,16 +246,7 @@ with open(os.path.join(out_dir, "cell_distribution.csv"), "w", newline="") as f:
     for ref, cnt in sorted_cells:
         w.writerow([ref, cnt, round(cnt/total*100, 2)])
 
-# connectivity.csv (per-instance degree)
-with open(os.path.join(out_dir, "connectivity.csv"), "w", newline="") as f:
-    w = csv.writer(f)
-    w.writerow(["full_name", "ref_name", "degree", "cell_class"])
-    for inst in insts:
-        d = inst_degree.get(inst.name, 0)
-        cls = 'macro' if (is_macro_ref(inst.ref_name) or d > MACRO_DEGREE_THRESHOLD) else 'stdcell'
-        w.writerow([inst.full_name, inst.ref_name, d, cls])
-
-print(f"  CSV → {out_dir}/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv  connectivity.csv")
+print(f"  CSV → {out_dir}/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv")
 
 # ════════════ 图表 ════════════
 

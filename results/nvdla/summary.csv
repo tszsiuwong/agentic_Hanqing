@@ -1,2 +1,2 @@
 design,instances,cell_types,ports_in,ports_out,ports_inout,nets,stdcell_insts,macro_insts,macro_types,degree_mean,degree_min,degree_max,fanout_mean,fanout_p95,fanout_max_signal,special_clock,special_reset,special_const,rent_p,rent_k
-superblue1,1206104,248,3037,3491,0,1215710,1205938,166,38,3.086702633137027,1,32,3.09,7,51,1,0,0,1.356,0.0
+NV_nvdla,2229371,102,820,945,0,2818808,2229197,174,15,3.8106035491703962,2,7,2.96,5,1168,4,357,2,1.316,0.0

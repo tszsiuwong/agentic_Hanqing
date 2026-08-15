@@ -29,14 +29,19 @@ datalens_python analysis/netlist_profiler.py design.v --out out_dir/   # 指定�
 
 ## 时钟结构分析 `clock_analysis.py`
 
-独立于网表结构分析。输出：单元分类（时序/门控/时钟 buffer/组合）、时钟域、时序单元类型分布、复位/使能统计。
+独立于网表结构分析。输出：单元分类（时序/门控/时钟 buffer/组合）、时钟域（含频率）、时序单元类型分布、复位/使能统计、时钟树拓扑。
 
 ```bash
 datalens_python analysis/clock_analysis.py design.v
+datalens_python analysis/clock_analysis.py design.v --lib cells.lib          # 用 is_clock 精确识别
+datalens_python analysis/clock_analysis.py design.v --lib cells.lib --sdc design.sdc  # 关联时钟频率
 datalens_python analysis/clock_analysis.py design.v --out out_dir/
 ```
 
-输出：`clock_summary.csv` / `clock_domains.csv` / `seq_cells.csv` + `clock_structure.png`。
+- `--lib <file>`：加载 Liberty，用 `lib_pin.is_clock` 精确识别时钟引脚（回退启发式）
+- `--sdc <file>`：解析 `create_clock` 拿时钟周期/频率，关联时钟域
+
+输出：`clock_summary.csv` / `clock_domains.csv`（含频率）/ `seq_cells.csv` / `clock_tree.csv` + `clock_structure.png`。
 
 ## 分步脚本（按需）
 

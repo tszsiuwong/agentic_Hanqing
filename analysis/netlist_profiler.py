@@ -88,16 +88,31 @@ for net in nets:
             if inst is not None: inst_nets[inst.name].add(net.name)
         except: pass
 degrees = [len(inst_nets[i.name]) for i in insts]
-fanouts = []
-hi_fo_nets = []
+
+# 网分类：时钟/复位/常量 vs 普通信号
+def classify_net(name):
+    n = name.lower()
+    if re.search(r'clk|clock', n): return 'clock'
+    if re.search(r'rst|reset', n): return 'reset'
+    if re.search(r'logical_0|logical_1|tie_hi|tie_lo|vdd|vss|gnd', n): return 'constant'
+    return 'signal'
+
+net_fanout = {}   # name -> fo
+net_class = {}
 for n in nets:
     fo = n.fanout_leaf_pin_count(is_flatten_view=False, include_inout=True)
-    fanouts.append(fo)
-    if fo > 1000:
-        hi_fo_nets.append((n.name, fo))
-hi_fo_nets.sort(key=lambda x: -x[1])
-avg_f = sum(fanouts)/len(fanouts) if fanouts else 0
-mx_f = max(fanouts) if fanouts else 0
+    net_fanout[n.name] = fo
+    net_class[n.name] = classify_net(n.name)
+
+signal_fanouts = [fo for name, fo in net_fanout.items() if net_class[name] == 'signal']
+special_nets = [(name, fo, net_class[name]) for name, fo in net_fanout.items()
+                if net_class[name] != 'signal']
+special_nets.sort(key=lambda x: -x[1])
+
+avg_f = sum(signal_fanouts)/len(signal_fanouts) if signal_fanouts else 0
+fo_sorted = sorted(signal_fanouts) if signal_fanouts else [0]
+fo_95 = fo_sorted[int(len(fo_sorted)*0.95)] if fo_sorted else 0
+fo_max_signal = max(signal_fanouts) if signal_fanouts else 0
 
 print(f"\n{SEP}")
 print("  连接度")
@@ -108,12 +123,24 @@ if max(degrees) > 0:
     print(f"  Degree:    均值 {avg_d:.1f}  σ={std_d:.1f}  范围 {min(degrees)}–{max(degrees)}")
 else:
     print(f"  Degree:    N/A (需要 MACRO LEF 或 Verilog 网表)")
-fo_sorted = sorted(fanouts) if fanouts else [0]
-fo_95 = fo_sorted[int(len(fo_sorted)*0.95)] if len(fo_sorted) > 0 else 0
-print(f"  Fanout:    均值 {avg_f:.1f}  P95={fo_95}  异常高扇出(FO>1000): {len(hi_fo_nets)} 条")
-if hi_fo_nets:
-    for name, fo in hi_fo_nets[:10]:
-        print(f"    '{name}' (FO={fo})")
+print(f"  Fanout (信号网): 均值 {avg_f:.1f}  P95={fo_95}  最大 {fo_max_signal}")
+
+# 特殊网单独列出（时钟/复位/常量，不混入统计）
+print(f"\n{SEP}")
+print("  特殊网（时钟/复位/常量）—— 单独分析，不计入 Fanout 统计")
+print(SEP)
+if special_nets:
+    n_clock = sum(1 for _, _, c in special_nets if c == 'clock')
+    n_reset = sum(1 for _, _, c in special_nets if c == 'reset')
+    n_const = sum(1 for _, _, c in special_nets if c == 'constant')
+    print(f"  Clock 网: {n_clock} 条 | Reset 网: {n_reset} 条 | 常量网: {n_const} 条")
+    print()
+    for name, fo, cls in special_nets[:15]:
+        print(f"  [{cls:<8}] {name:<40} FO={fo}")
+    if len(special_nets) > 15:
+        print(f"  ... (共 {len(special_nets)} 条特殊网)")
+else:
+    print("  无")
 
 # ════════════ Rent's Rule (standard cumulative method) ════════════
 rents = None; rent_p, logk = 0, 0
@@ -138,11 +165,25 @@ with open("out/summary.csv", "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["design", "instances", "cell_types", "ports_in", "ports_out", "ports_inout",
                 "nets", "degree_mean", "degree_min", "degree_max",
-                "fanout_mean", "fanout_max", "rent_p", "rent_k"])
+                "fanout_mean", "fanout_p95", "fanout_max_signal",
+                "special_clock", "special_reset", "special_const",
+                "rent_p", "rent_k"])
+    n_clock = sum(1 for _, _, c in special_nets if c == 'clock')
+    n_reset = sum(1 for _, _, c in special_nets if c == 'reset')
+    n_const = sum(1 for _, _, c in special_nets if c == 'constant')
     w.writerow([top.name, total, len(ref_counter), in_cnt, out_cnt, inout_cnt,
                 len(nets), sum(degrees)/max(len(degrees),1) if degrees else 0,
                 min(degrees) if degrees else 0, max(degrees) if degrees else 0,
-                avg_f, mx_f, round(rent_p, 3), round(10**logk, 1) if logk else 0])
+                round(avg_f, 2), fo_95, fo_max_signal,
+                n_clock, n_reset, n_const,
+                round(rent_p, 3), round(10**logk, 1) if logk else 0])
+
+# special_nets.csv (高扇出网单独导出)
+with open("out/special_nets.csv", "w", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["net_name", "type", "fanout"])
+    for name, fo, cls in special_nets:
+        w.writerow([name, cls, fo])
 
 # cell_distribution.csv
 with open("out/cell_distribution.csv", "w", newline="") as f:
@@ -158,7 +199,7 @@ with open("out/connectivity.csv", "w", newline="") as f:
     for inst in insts:
         w.writerow([inst.full_name, inst.ref_name, len(inst_nets.get(inst.name, []))])
 
-print(f"  CSV → out/summary.csv  cell_distribution.csv  connectivity.csv")
+print(f"  CSV → out/summary.csv  special_nets.csv  cell_distribution.csv  connectivity.csv")
 
 # ════════════ 图表 ════════════
 
@@ -192,8 +233,8 @@ plt.savefig("out/cell_functions.png", dpi=150); plt.close()
 # 连接度 + Rent 图 (6-panel)
 fig, axes = plt.subplots(2, 3, figsize=(18, 10))
 d_mean = sum(degrees)/max(len(degrees),1); d_std = (sum((x-d_mean)**2 for x in degrees)/max(len(degrees),1))**0.5 if degrees else 0
-f_mean = avg_f; f_max = mx_f
-deg_arr = sorted(degrees); fo_vals = [f for f in fanouts if f > 0]
+f_mean = avg_f; f_max = fo_max_signal
+deg_arr = sorted(degrees); fo_vals = [f for f in signal_fanouts if f > 0]
 unique_deg = len(set(degrees)); unique_fo = len(set(fo_vals))
 is_large = len(degrees) > 100000
 
@@ -259,8 +300,9 @@ Cell Types: {len(ref_counter)}
 Ports: {len(ports)}  Nets: {len(nets)}
 
 Degree:  [{min(degrees) if degrees else 0}, {max(degrees) if degrees else 0}]
-  μ={d_mean:.1f}  σ={d_std:.1f}
-Fanout:  μ={f_mean:.1f}  P95={fo_95}
+  mu={d_mean:.1f}  sigma={d_std:.1f}
+Fanout (signal):  mu={f_mean:.1f}  P95={fo_95}
+  special: clk={n_clock} rst={n_reset} const={n_const}
 Rent:    {rp_text}"""
 ax.text(0.05, 0.95, info, transform=ax.transAxes, fontsize=10,
         verticalalignment='top', fontfamily='monospace',

@@ -1,0 +1,3 @@
+net_name,type,fanout
+clk,clock,4430
+rst,reset,65

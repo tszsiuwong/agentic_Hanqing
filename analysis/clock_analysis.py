@@ -15,13 +15,14 @@ import matplotlib.pyplot as plt
 matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
 if len(sys.argv) < 2:
-    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [tech.lef macro.lef ...] [--lib <file>] [--out <dir>]")
+    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [tech.lef macro.lef ...] [--lib <file>] [--sdc <file>] [--out <dir>]")
     sys.exit(1)
 
-# 解析 --out / --lib
+# 解析 --out / --lib / --sdc
 args = sys.argv[1:]
 out_dir = "out"
 lib_file = None
+sdc_file = None
 i = 0
 while i < len(args):
     if args[i] == '--out' and i + 1 < len(args):
@@ -30,11 +31,40 @@ while i < len(args):
     elif args[i] == '--lib' and i + 1 < len(args):
         lib_file = args[i + 1]
         args = args[:i] + args[i+2:]
+    elif args[i] == '--sdc' and i + 1 < len(args):
+        sdc_file = args[i + 1]
+        args = args[:i] + args[i+2:]
     else:
         i += 1
 
 design_file = args[0]
 lef_files = args[1:] if len(args) > 1 else []
+
+# ── 解析 SDC（create_clock / create_generated_clock）──
+sdc_clocks = {}   # port -> {name, period, generated, source, divide_by}
+if sdc_file:
+    try:
+        with open(sdc_file) as f:
+            for line in f:
+                line = line.strip()
+                if not (line.startswith('create_clock') or line.startswith('create_generated_clock')):
+                    continue
+                is_gen = line.startswith('create_generated_clock')
+                m_port = re.search(r'get_ports\s+\[?\{?(\w+)', line)
+                port = m_port.group(1) if m_port else None
+                m_name = re.search(r'-name\s+(\S+)', line)
+                name = m_name.group(1) if m_name else port
+                m_period = re.search(r'-period\s+([\d.]+)', line)
+                period = float(m_period.group(1)) if m_period else None
+                m_src = re.search(r'-source\s+\[get_ports\s+\[?\{?(\w+)', line)
+                source = m_src.group(1) if m_src else None
+                m_div = re.search(r'-divide_by\s+(\d+)', line)
+                div = int(m_div.group(1)) if m_div else None
+                if port:
+                    sdc_clocks[port] = {'name': name, 'period': period, 'generated': is_gen, 'source': source, 'divide_by': div}
+        print(f"[进度] SDC 解析：{len(sdc_clocks)} 个时钟定义")
+    except Exception as e:
+        print(f"[警告] SDC 解析失败：{e}")
 
 if design_file.endswith('.v') or design_file.endswith('.v.gz'):
     datalens.exchange.load_netlist([design_file])
@@ -281,7 +311,16 @@ for ref, cnt in seq_ref_counter.most_common(20):
 
 print(f"\n[3] 时钟域（{len(clock_domains)} 个）")
 for root, ffs in sorted(clock_domains.items(), key=lambda x: -len(x[1])):
-    print(f"  时钟根 '{root}': {len(ffs)} 个寄存器")
+    sdc = sdc_clocks.get(root)
+    if sdc and sdc.get('period'):
+        period = sdc['period']       # 单位 ns
+        freq = 1000.0 / period       # MHz
+        extra = ""
+        if sdc.get('generated'):
+            extra = f" | generated from '{sdc.get('source')}' /{sdc.get('divide_by')}"
+        print(f"  时钟根 '{root}': {len(ffs)} 个寄存器 | period={period}ns ({freq:.0f} MHz){extra}")
+    else:
+        print(f"  时钟根 '{root}': {len(ffs)} 个寄存器  (SDC 无定义)")
 
 ICG_OUTPUT_PINS = {'Q', 'Z', 'ECK', 'GCLK', 'GCK', 'Y', 'OUT', 'ZN'}
 
@@ -347,9 +386,13 @@ with open(os.path.join(out_dir, "clock_tree.csv"), "w", newline="") as f:
 
 with open(os.path.join(out_dir, "clock_domains.csv"), "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["clock_root", "ff_count"])
+    w.writerow(["clock_root", "ff_count", "period_ns", "freq_mhz", "generated", "source", "divide_by"])
     for root, ffs in sorted(clock_domains.items(), key=lambda x: -len(x[1])):
-        w.writerow([root, len(ffs)])
+        sdc = sdc_clocks.get(root, {})
+        period = sdc.get('period')
+        freq = round(1000.0 / period, 1) if period else ""
+        w.writerow([root, len(ffs), period or "", freq,
+                    sdc.get('generated', False), sdc.get('source', ""), sdc.get('divide_by', "")])
 
 with open(os.path.join(out_dir, "seq_cells.csv"), "w", newline="") as f:
     w = csv.writer(f)

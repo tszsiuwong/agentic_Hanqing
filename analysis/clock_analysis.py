@@ -15,17 +15,23 @@ import matplotlib.pyplot as plt
 matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
 if len(sys.argv) < 2:
-    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [tech.lef macro.lef ...] [--out <dir>]")
+    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [tech.lef macro.lef ...] [--lib <file>] [--out <dir>]")
     sys.exit(1)
 
-# 解析 --out
+# 解析 --out / --lib
 args = sys.argv[1:]
 out_dir = "out"
-if '--out' in args:
-    i = args.index('--out')
-    if i + 1 < len(args):
+lib_file = None
+i = 0
+while i < len(args):
+    if args[i] == '--out' and i + 1 < len(args):
         out_dir = args[i + 1]
         args = args[:i] + args[i+2:]
+    elif args[i] == '--lib' and i + 1 < len(args):
+        lib_file = args[i + 1]
+        args = args[:i] + args[i+2:]
+    else:
+        i += 1
 
 design_file = args[0]
 lef_files = args[1:] if len(args) > 1 else []
@@ -36,7 +42,41 @@ else:
     if lef_files: datalens.exchange.load_lef(lef_files)
     datalens.exchange.load_def(design_file)
 
+# 可选：加载 Liberty，用 is_clock 精确识别（回退启发式）
+lib_clock_pins = {}   # ref_name -> {pin_name: 'clock'/'reset'/'enable'/'gate_*'}
+lib_seq_refs = set()  # 有 clock pin 的 cell（时序单元）
+if lib_file:
+    try:
+        datalens.exchange.load_lib([lib_file])
+        lib = datalens.timinglib.current_lib()
+        if lib:
+            for lc in lib.libcell_iter():
+                pins = {}
+                has_clock = False
+                for lp in lc.libpin_iter():
+                    role = None
+                    if lp.is_clock:
+                        has_clock = True
+                        role = 'clock'
+                    elif lp.is_clock_gate_clock_pin:
+                        role = 'gate_clock'
+                    elif lp.is_clock_gate_enable_pin:
+                        role = 'gate_enable'
+                    elif lp.is_clock_gate_out_pin:
+                        role = 'gate_out'
+                    if role:
+                        pins[lp.name] = role
+                if pins:
+                    lib_clock_pins[lc.name] = pins
+                if has_clock:
+                    lib_seq_refs.add(lc.name)
+        print(f"[进度] LIB 加载：{len(lib_clock_pins)} 个 cell 有引脚角色，{len(lib_seq_refs)} 个时序单元")
+    except Exception as e:
+        print(f"[警告] LIB 加载失败，回退启发式：{e}")
+        lib_file = None
+
 top = datalens.design.present_project().present_module()
+print(f"[进度] 读取模块实例 ...")
 insts = []
 for module in datalens.design.module_iter():
     for inst in module.inst_iter(False):
@@ -45,6 +85,7 @@ for module in datalens.design.module_iter():
 nets = top.nets
 ports = top.ports
 net_by_name = {n.name: n for n in nets}
+print(f"[进度] 实例 {len(insts)}，网 {len(nets)}")
 
 SEP = "=" * 64
 
@@ -63,7 +104,9 @@ comb_cells = []    # 组合逻辑 (inst)
 
 for inst in insts:
     ref = inst.ref_name.upper()
-    if any(ref.startswith(p) for p in SEQ_PREFIXES):
+    if inst.ref_name in lib_seq_refs:          # lib 优先：有 clock pin 的 cell 是时序单元
+        seq_cells.append(inst)
+    elif any(ref.startswith(p) for p in SEQ_PREFIXES):  # 回退启发式
         seq_cells.append(inst)
     elif any(ref.startswith(p) for p in ICG_PREFIXES):
         icg_cells.append(inst)
@@ -71,6 +114,7 @@ for inst in insts:
         clkbuf_cells.append(inst)
     else:
         comb_cells.append(inst)
+print(f"[进度] 分类完成：seq={len(seq_cells)} icg={len(icg_cells)} clkbuf={len(clkbuf_cells)} comb={len(comb_cells)}")
 
 # ── 提取时序单元时钟引脚 ──────────────────────────────
 # ff 名字 -> (时钟 net, 复位 net, 使能 net)
@@ -79,16 +123,24 @@ ff_reset_nets = {}
 ff_enable_nets = {}
 
 for inst in seq_cells:
+    # lib 优先：用 lib 记录的 clock pin 名字；回退启发式 pin 名
+    lib_pin_roles = lib_clock_pins.get(inst.ref_name, {})
     for pin in inst.pins:
         pname = pin.name.upper()
         net = pin.net
         netname = net.name if net is not None else None
-        if pname in CLK_PIN_NAMES and netname:
+        role = lib_pin_roles.get(pin.name)
+        if role in ('clock', 'gate_clock') and netname:
             ff_clock_net[inst.name] = netname
-        elif pname in RST_PIN_NAMES and netname:
-            ff_reset_nets.setdefault(inst.name, []).append(netname)
-        elif pname in EN_PIN_NAMES and netname:
+        elif role == 'gate_enable' and netname:
             ff_enable_nets.setdefault(inst.name, []).append(netname)
+        elif role is None and pname in CLK_PIN_NAMES and netname:  # 回退启发式
+            ff_clock_net[inst.name] = netname
+        elif role is None and pname in RST_PIN_NAMES and netname:
+            ff_reset_nets.setdefault(inst.name, []).append(netname)
+        elif role is None and pname in EN_PIN_NAMES and netname:
+            ff_enable_nets.setdefault(inst.name, []).append(netname)
+print(f"[进度] 时钟引脚提取完成：{len(ff_clock_net)} 个寄存器有时钟引脚")
 
 # ── 时钟域聚类：追 fanin 到根 ─────────────────────────
 BUFFER_INPUT_PINS = {'A', 'I', 'IN', 'CK', 'CLK'}
@@ -139,13 +191,76 @@ def trace_clock_root(netname, max_depth=50):
             break
     return cur
 
-# 聚类：每个时序单元的时钟网 -> 时钟根
+# 聚类：每个时序单元的时钟网 -> 时钟根（trace 结果缓存，避免重复追）
 clock_domains = defaultdict(list)  # 根 net -> [ff inst name]
 ff_domain = {}
+root_cache = {}
 for ff_name, clk_net in ff_clock_net.items():
-    root = trace_clock_root(clk_net)
+    if clk_net not in root_cache:
+        root_cache[clk_net] = trace_clock_root(clk_net)
+    root = root_cache[clk_net]
     clock_domains[root].append(ff_name)
     ff_domain[ff_name] = root
+print(f"[进度] 时钟域聚类完成：{len(clock_domains)} 个时钟域")
+
+# ── 时钟树拓扑 BFS ────────────────────────────────────
+def analyze_clock_tree(root_net_name):
+    """从时钟根 BFS 遍历，统计每层 buffer 数、叶子数、深度"""
+    from collections import deque
+    queue = deque([(root_net_name, 0)])
+    visited_nets = set()
+    level_buffers = defaultdict(int)   # depth -> buffer 数
+    level_leaves = defaultdict(int)    # depth -> 寄存器数
+    level_other = defaultdict(int)     # depth -> 其他（ICG/异常）
+    max_depth = 0
+
+    while queue:
+        net_name, depth = queue.popleft()
+        if net_name in visited_nets:
+            continue
+        visited_nets.add(net_name)
+        net_obj = net_by_name.get(net_name)
+        if net_obj is None:
+            continue
+        max_depth = max(max_depth, depth)
+        try:
+            fanout_pins = net_obj.fanout_pins(datalens.design.PinMode.ALL, True)
+        except Exception:
+            continue
+        for pin in fanout_pins:
+            inst = pin.inst
+            if inst is None:
+                continue  # 顶层 port
+            ref = inst.ref_name.upper()
+            if any(ref.startswith(p) for p in CLKBUF_PREFIXES):
+                level_buffers[depth] += 1
+                # 找输出 pin，输出 net 加入下一层
+                for p2 in inst.pins:
+                    if p2.name.upper() in BUFFER_OUTPUT_PINS:
+                        nn = p2.net
+                        if nn:
+                            queue.append((nn.name, depth + 1))
+                        break
+            elif any(ref.startswith(p) for p in ICG_PREFIXES):
+                level_other[depth] += 1
+                # ICG 输出继续向下
+                for p2 in inst.pins:
+                    if p2.name.upper() in ICG_OUTPUT_PINS:
+                        nn = p2.net
+                        if nn:
+                            queue.append((nn.name, depth + 1))
+                        break
+            elif any(ref.startswith(p) for p in SEQ_PREFIXES):
+                level_leaves[depth] += 1
+            else:
+                level_other[depth] += 1
+    return level_buffers, level_leaves, level_other, max_depth
+
+# 对每个时钟域做拓扑分析
+clock_tree_stats = {}
+for root, ffs in clock_domains.items():
+    lb, ll, lo, md = analyze_clock_tree(root)
+    clock_tree_stats[root] = (lb, ll, lo, md)
 
 # ── 打印 ──────────────────────────────────────────────
 print(f"\n{SEP}")
@@ -154,8 +269,8 @@ print(SEP)
 
 print(f"\n[1] 单元分类")
 print(f"  时序单元 (DFF/Latch):  {len(seq_cells)}")
-print(f"  时钟门控 (ICG):        {len(icg_cells)}")
-print(f"  时钟 buffer/inverter:  {len(clkbuf_cells)}")
+print(f"  CLKBUF/CLKINV 命名单元: {len(clkbuf_cells)}  (未必在时钟路径，见 [6] 拓扑)")
+print(f"  时钟门控 (ICG 命名):   {len(icg_cells)}")
 print(f"  组合逻辑:              {len(comb_cells)}")
 
 # 时序单元细分
@@ -198,6 +313,20 @@ n_ff_with_en = sum(1 for f in seq_cells if f.name in ff_enable_nets)
 print(f"  带复位寄存器: {n_ff_with_rst} / {len(seq_cells)}")
 print(f"  带使能/scan 寄存器: {n_ff_with_en} / {len(seq_cells)}")
 
+# 时钟树拓扑
+print(f"\n[6] 时钟树拓扑")
+for root, (lb, ll, lo, md) in sorted(clock_tree_stats.items(), key=lambda x: -len(clock_domains[x[0]])):
+    total_buf = sum(lb.values())
+    total_leaf = sum(ll.values())
+    print(f"  时钟域 '{root}':")
+    print(f"    深度 {md} 层 | buffer {total_buf} 个 | 寄存器叶子 {total_leaf} 个 | 其他 {sum(lo.values())} 个")
+    for depth in sorted(set(list(lb.keys()) + list(ll.keys()) + list(lo.keys()))):
+        b = lb.get(depth, 0)
+        l = ll.get(depth, 0)
+        o = lo.get(depth, 0)
+        fanout = (l + b + o) / b if b > 0 else 0
+        print(f"    L{depth}: buffer={b:<4} 叶子={l:<5} 其他={o:<3}  (buffer 平均扇出 {fanout:.1f})")
+
 # ── CSV 导出 ──────────────────────────────────────────
 os.makedirs(out_dir, exist_ok=True)
 
@@ -207,6 +336,14 @@ with open(os.path.join(out_dir, "clock_summary.csv"), "w", newline="") as f:
                 "clock_domains", "ff_with_reset", "ff_with_enable"])
     w.writerow([top.name, len(seq_cells), len(icg_cells), len(clkbuf_cells), len(comb_cells),
                 len(clock_domains), n_ff_with_rst, n_ff_with_en])
+
+# clock_tree.csv (每层拓扑)
+with open(os.path.join(out_dir, "clock_tree.csv"), "w", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["clock_root", "depth", "buffers", "leaves", "other"])
+    for root, (lb, ll, lo, md) in clock_tree_stats.items():
+        for depth in range(md + 1):
+            w.writerow([root, depth, lb.get(depth, 0), ll.get(depth, 0), lo.get(depth, 0)])
 
 with open(os.path.join(out_dir, "clock_domains.csv"), "w", newline="") as f:
     w = csv.writer(f)

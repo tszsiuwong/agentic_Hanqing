@@ -1,0 +1,6 @@
+net_name,type,fanout
+clk_i,clock,19629
+rst_ni,reset,19585
+LOGICAL_1,constant,705
+LOGICAL_0,constant,13
+csr_regfile_i_mtvec_rst_load_q,reset,7

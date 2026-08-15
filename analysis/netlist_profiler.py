@@ -8,11 +8,20 @@ import matplotlib
 matplotlib.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans'], 'axes.unicode_minus': False})
 
 if len(sys.argv) < 2:
-    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [tech.lef macro.lef ...]")
+    print(f"用法: {os.path.basename(sys.argv[0])} <design.v|design.def> [tech.lef macro.lef ...] [--out <dir>]")
     sys.exit(1)
 
-design_file = sys.argv[1]
-lef_files = sys.argv[2:] if len(sys.argv) > 2 else []
+# 解析 --out <dir> 参数
+args = sys.argv[1:]
+out_dir = "out"
+if '--out' in args:
+    i = args.index('--out')
+    if i + 1 < len(args):
+        out_dir = args[i + 1]
+        args = args[:i] + args[i+2:]
+
+design_file = args[0]
+lef_files = args[1:] if len(args) > 1 else []
 
 if design_file.endswith('.v') or design_file.endswith('.v.gz'):
     datalens.exchange.load_netlist([design_file])
@@ -193,10 +202,10 @@ else:
     print(f"  Rent:      N/A")
 
 # ════════════ CSV 导出 ════════════
-os.makedirs("out", exist_ok=True)
+os.makedirs(out_dir, exist_ok=True)
 
 # summary.csv
-with open("out/summary.csv", "w", newline="") as f:
+with open(os.path.join(out_dir, "summary.csv"), "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["design", "instances", "cell_types", "ports_in", "ports_out", "ports_inout",
                 "nets", "stdcell_insts", "macro_insts", "macro_types",
@@ -216,7 +225,7 @@ with open("out/summary.csv", "w", newline="") as f:
                 round(rent_p, 3), round(10**logk, 1) if logk else 0])
 
 # macro_cells.csv (宏单元导出)
-with open("out/macro_cells.csv", "w", newline="") as f:
+with open(os.path.join(out_dir, "macro_cells.csv"), "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["ref_name", "count", "avg_degree"])
     for ref, cnt in macro_ref_counter.most_common():
@@ -224,21 +233,21 @@ with open("out/macro_cells.csv", "w", newline="") as f:
         w.writerow([ref, cnt, round(avg_md, 1)])
 
 # special_nets.csv (高扇出网单独导出)
-with open("out/special_nets.csv", "w", newline="") as f:
+with open(os.path.join(out_dir, "special_nets.csv"), "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["net_name", "type", "fanout"])
     for name, fo, cls in special_nets:
         w.writerow([name, cls, fo])
 
 # cell_distribution.csv
-with open("out/cell_distribution.csv", "w", newline="") as f:
+with open(os.path.join(out_dir, "cell_distribution.csv"), "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["ref_name", "count", "percentage"])
     for ref, cnt in sorted_cells:
         w.writerow([ref, cnt, round(cnt/total*100, 2)])
 
 # connectivity.csv (per-instance degree)
-with open("out/connectivity.csv", "w", newline="") as f:
+with open(os.path.join(out_dir, "connectivity.csv"), "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["full_name", "ref_name", "degree", "cell_class"])
     for inst in insts:
@@ -246,7 +255,7 @@ with open("out/connectivity.csv", "w", newline="") as f:
         cls = 'macro' if (is_macro_ref(inst.ref_name) or d > MACRO_DEGREE_THRESHOLD) else 'stdcell'
         w.writerow([inst.full_name, inst.ref_name, d, cls])
 
-print(f"  CSV → out/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv  connectivity.csv")
+print(f"  CSV → {out_dir}/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv  connectivity.csv")
 
 # ════════════ 图表 ════════════
 
@@ -264,7 +273,7 @@ ax.set_xticks(range(len(show_names)))
 ax.set_xticklabels(show_names, rotation=45, ha='right', fontsize=8)
 ax.set_ylabel('Count'); ax.set_title(f'Cell Distribution (Top {show_n} of {len(names)} types)')
 plt.tight_layout()
-plt.savefig("out/cells.png", dpi=150); plt.close()
+plt.savefig(os.path.join(out_dir, "cells.png"), dpi=150); plt.close()
 
 # 功能分类图
 top10f = func_agg.most_common(10)
@@ -275,7 +284,7 @@ ax.barh(range(len(fnames)), fcounts, color=colors_bar)
 ax.set_yticks(range(len(fnames))); ax.set_yticklabels(fnames); ax.invert_yaxis()
 ax.set_xlabel('Count'); ax.set_title('Top Cell Functions')
 plt.tight_layout()
-plt.savefig("out/cell_functions.png", dpi=150); plt.close()
+plt.savefig(os.path.join(out_dir, "cell_functions.png"), dpi=150); plt.close()
 
 # 连接度 + Rent 图 (6-panel)
 fig, axes = plt.subplots(2, 3, figsize=(18, 10))
@@ -359,7 +368,7 @@ ax.text(0.05, 0.95, info, transform=ax.transAxes, fontsize=10,
 
 fig.suptitle(f'{top.name}  Connectivity Analysis', fontsize=14, fontweight='bold')
 plt.tight_layout()
-plt.savefig("out/connectivity.png", dpi=150, bbox_inches='tight'); plt.close()
+plt.savefig(os.path.join(out_dir, "connectivity.png"), dpi=150, bbox_inches='tight'); plt.close()
 
 print(f"\n{SEP}")
 print("  Done — 图表 → out/")

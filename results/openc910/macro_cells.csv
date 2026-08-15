@@ -1,0 +1,12 @@
+ref_name,count,avg_degree
+fakeram45_1024x32,18,77.9
+fakeram45_512x22,2,46.0
+fakeram45_512x44,2,79.0
+fakeram45_256x84,2,159.0
+fakeram45_256x52,1,90.0
+fakeram45_256x7,1,23.0
+fakeram45_256x54,1,93.0
+fakeram45_256x59,1,101.0
+fakeram45_1024x64,1,86.0
+fakeram45_128x16,1,29.0
+fakeram45_256x196,1,289.0

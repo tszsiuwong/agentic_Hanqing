@@ -1,0 +1,78 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clock' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_address' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_action' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_r' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_tmatch' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_w' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_x' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_cause' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_csr_stall' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_decode_0_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_read_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_flush' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_eret' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_evec' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_exception' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_inst_0' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_interrupt' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 5 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/tinyRocket_nangate45.v' successfully.
+[INFO] [read_liberty.cc:557] [ LIB-I-0007] Start to read liberty file 'test/Nangate45/NangateOpenCellLibrary_typical.lib'.
+SysAlloc madvise success at 0x71a8b65ff000
+[INFO] [read_liberty.cc:601] [ LIB-I-0011] Liberty file 'test/Nangate45/NangateOpenCellLibrary_typical.lib' is read successfully.
+[INFO] [lib_manager.cc:315] [    DM-0024] The lib 'NangateOpenCellLibrary_typical' has been added to the corner 'typical' of the corner set 'unspecified_corner_set' successfully.
+[进度] LIB 加载：29 个 cell 有引脚角色，29 个时序单元
+[进度] 读取模块实例 ...
+[进度] 实例 27950，网 4421
+[进度] 分类完成：seq=4035 icg=0 clkbuf=282 comb=23633
+[进度] 时钟引脚提取完成：4034 个寄存器有时钟引脚
+[进度] 时钟域聚类完成：3 个时钟域
+
+================================================================
+  时钟结构分析  —  RocketTile
+================================================================
+
+[1] 单元分类
+  时序单元 (DFF/Latch):  4035
+  CLKBUF/CLKINV 命名单元: 282  (未必在时钟路径，见 [6] 拓扑)
+  时钟门控 (ICG 命名):   0
+  组合逻辑:              23633
+
+[2] 时序单元类型分布
+  DFF_X1                     4035
+
+[3] 时钟域（3 个）
+  时钟根 'clock': 3070 个寄存器  (SDC 无定义)
+  时钟根 'gated_clock': 899 个寄存器  (SDC 无定义)
+  时钟根 'io_ungated_clock': 65 个寄存器  (SDC 无定义)
+
+[4] 时钟门控
+  无时钟门控单元（未插入 ICG）
+
+[5] 复位/使能
+  带复位寄存器: 0 / 4035
+  带使能/scan 寄存器: 0 / 4035
+
+[6] 时钟树拓扑
+  时钟域 'clock':
+    深度 0 层 | buffer 0 个 | 寄存器叶子 704 个 | 其他 3 个
+    L0: buffer=0    叶子=704   其他=3    (buffer 平均扇出 0.0)
+  时钟域 'gated_clock':
+    深度 0 层 | buffer 0 个 | 寄存器叶子 0 个 | 其他 0 个
+  时钟域 'io_ungated_clock':
+    深度 0 层 | buffer 0 个 | 寄存器叶子 0 个 | 其他 0 个
+
+  CSV → results/repro/tinyRocket_nangate45/clock_summary.csv  clock_domains.csv  seq_cells.csv
+  PNG → results/repro/tinyRocket_nangate45/clock_structure.png
+
+================================================================
+  Done.
+================================================================

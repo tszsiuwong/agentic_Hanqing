@@ -1,0 +1,33 @@
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/Nangate45/NangateOpenCellLibrary.tech.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/Nangate45/NangateOpenCellLibrary.tech.lef' successfully.
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/Nangate45/NangateOpenCellLibrary.macro.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/Nangate45/NangateOpenCellLibrary.macro.lef' successfully.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'req_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'reset' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'resp_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/gcd_nangate45.v' successfully.
+============================================================
+单元面积分析
+============================================================
+  可用 Macro:  33/33 种
+  总面积:      631.48 µm²  (1.22 /个)
+============================================================
+
+  Cell                        面积(µm²)     数量        总面积
+  ----------------------------------------------------
+  DFF_X1                        4.522     35     158.27
+  NAND2_X1                      0.798    166     132.47
+  OAI21_X1                      1.064     42      44.69
+  INV_X1                        0.532     81      43.09
+  NAND3_X1                      1.064     34      36.18
+  NAND2_X2                      1.330     27      35.91
+  NAND2_X4                      2.394     12      28.73
+  NOR2_X1                       0.798     23      18.35
+  XNOR2_X1                      1.596     11      17.56
+  NAND4_X1                      1.330     13      17.29

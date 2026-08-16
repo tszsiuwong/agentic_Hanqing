@@ -1,0 +1,51 @@
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/Nangate45/NangateOpenCellLibrary.tech.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/Nangate45/NangateOpenCellLibrary.tech.lef' successfully.
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/Nangate45/NangateOpenCellLibrary.macro.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/Nangate45/NangateOpenCellLibrary.macro.lef' successfully.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clock' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_address' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_action' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_r' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_tmatch' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_w' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_x' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_cause' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_csr_stall' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_decode_0_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_read_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_flush' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_eret' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_evec' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_exception' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_inst_0' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_interrupt' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 5 modules.
+[WARNING] [inst_linker.cc:307] [    DM-2006] Cell 'fakeram45_64x32' is not in the physical library. Load the correct physical library or read proper lef files to fix this issue.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 5 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/tinyRocket_nangate45.v' successfully.
+============================================================
+单元面积分析
+============================================================
+  可用 Macro:  81/86 种
+  总面积:      51648.95 µm²  (1.85 /个)
+============================================================
+
+  Cell                        面积(µm²)     数量        总面积
+  ----------------------------------------------------
+  DFF_X1                        4.522   4035   18246.27
+  MUX2_X1                       1.862   5936   11052.83
+  HA_X1                         2.660   1570    4176.20
+  OAI21_X1                      1.064   1755    1867.32
+  AOI21_X1                      1.064   1429    1520.46
+  BUF_X1                        0.798   1802    1438.00
+  NAND2_X1                      0.798   1643    1311.11
+  FA_X1                         4.256    277    1178.91
+  INV_X1                        0.532   1812     963.98
+  AND2_X1                       1.064    860     915.04

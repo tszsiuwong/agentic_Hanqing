@@ -1,0 +1,83 @@
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 9 modules.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 6 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 7 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 8 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 9 of 9 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/ibex_sky130hd.v' successfully.
+[INFO] [read_liberty.cc:557] [ LIB-I-0007] Start to read liberty file 'test/sky130hd/sky130_fd_sc_hd__tt_025C_1v80.lib'.
+SysAlloc madvise success at 0x776aae0ff000
+[INFO] [read_liberty.cc:601] [ LIB-I-0011] Liberty file 'test/sky130hd/sky130_fd_sc_hd__tt_025C_1v80.lib' is read successfully.
+[INFO] [lib_manager.cc:315] [    DM-0024] The lib 'sky130_fd_sc_hd__tt_025C_1v80' has been added to the corner 'tt_025C_1v80' of the corner set 'unspecified_corner_set' successfully.
+[进度] LIB 加载：69 个 cell 有引脚角色，69 个时序单元
+[进度] 读取模块实例 ...
+[进度] 实例 13752，网 13497
+[进度] 分类完成：seq=1933 icg=0 clkbuf=165 comb=11654
+[进度] 时钟引脚提取完成：1933 个寄存器有时钟引脚
+[进度] 时钟域聚类完成：2 个时钟域
+
+================================================================
+  时钟结构分析  —  ibex_core
+================================================================
+
+[1] 单元分类
+  时序单元 (DFF/Latch):  1933
+  CLKBUF/CLKINV 命名单元: 165  (未必在时钟路径，见 [6] 拓扑)
+  时钟门控 (ICG 命名):   0
+  组合逻辑:              11654
+
+[2] 时序单元类型分布
+  sky130_fd_sc_hd__dfrtp_1   1650
+  sky130_fd_sc_hd__edfxtp_1    273
+  sky130_fd_sc_hd__dfstp_2      9
+  sky130_fd_sc_hd__dlxtn_1      1
+
+[3] 时钟域（2 个）
+  时钟根 'clk_i': 995 个寄存器  (SDC 无定义)
+  时钟根 '_05435_': 938 个寄存器  (SDC 无定义)
+
+[4] 时钟门控
+  无时钟门控单元（未插入 ICG）
+
+[5] 复位/使能
+  带复位寄存器: 0 / 1933
+  带使能/scan 寄存器: 0 / 1933
+
+[6] 时钟树拓扑
+  时钟域 'clk_i':
+    深度 0 层 | buffer 0 个 | 寄存器叶子 995 个 | 其他 1 个
+    L0: buffer=0    叶子=995   其他=1    (buffer 平均扇出 0.0)
+  时钟域 '_05435_':
+    深度 0 层 | buffer 0 个 | 寄存器叶子 938 个 | 其他 1 个
+    L0: buffer=0    叶子=938   其他=1    (buffer 平均扇出 0.0)
+
+  CSV → results/repro/ibex_sky130hd/clock_summary.csv  clock_domains.csv  seq_cells.csv
+  PNG → results/repro/ibex_sky130hd/clock_structure.png
+
+================================================================
+  Done.
+================================================================

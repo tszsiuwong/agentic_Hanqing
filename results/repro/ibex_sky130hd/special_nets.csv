@@ -1,0 +1,4 @@
+net_name,type,fanout
+rst_ni,reset,1659
+clk_i,clock,996
+core_clock_gate_i.en_latch,clock,2

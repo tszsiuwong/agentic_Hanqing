@@ -1,0 +1,33 @@
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 9 modules.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 6 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 7 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 8 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 9 of 9 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file '/home/zixiao/agentic_Hanqing/test/ibex_sky130hd.v' successfully.
+Saved: ibex_core_connectivity.png
+Rent p=1.206 k=0.5  Degree μ=4.0  Fanout μ=3.9  [1.4s]

@@ -1,0 +1,29 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clock' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_address' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_action' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_r' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_tmatch' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_w' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_x' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_cause' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_csr_stall' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_decode_0_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_read_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_flush' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_eret' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_evec' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_exception' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_inst_0' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_interrupt' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 5 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file '/home/zixiao/agentic_Hanqing/test/tinyRocket_nangate45.v' successfully.
+Saved: RocketTile_connectivity.png
+Rent p=1.299 k=0.2  Degree μ=3.8  Fanout μ=4.6  [1.6s]

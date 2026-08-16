@@ -1,0 +1,57 @@
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'amp' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'din' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'douten' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'dstrb' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ena' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'qnt_cnt' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'qnt_val' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'rlen' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'size' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/jpeg_sky130hd.v' successfully.
+================================================================
+  纯网表基础统计
+================================================================
+  总 Instance:   33083
+  Cell 类型:     92 种
+  Port:          53  (IN:0  OUT:0  INOUT:0)
+  Net:           41023
+
+  Cell                         数量       占比
+  --------------------------------------
+  sky130_fd_sc_hd__fa_1      4389    13.3%
+  sky130_fd_sc_hd__edfxtp_1   4318    13.1%
+  sky130_fd_sc_hd__ha_1      3525    10.7%
+  sky130_fd_sc_hd__and2_1    2529     7.6%
+  sky130_fd_sc_hd__nand2_1   2324     7.0%
+  sky130_fd_sc_hd__o21ai_0   1763     5.3%
+  sky130_fd_sc_hd__a21oi_1   1697     5.1%
+  sky130_fd_sc_hd__xnor2_1   1676     5.1%
+  sky130_fd_sc_hd__nor2_1    1222     3.7%
+  sky130_fd_sc_hd__mux2_2     948     2.9%
+  sky130_fd_sc_hd__clkbuf_1    842     2.5%
+  sky130_fd_sc_hd__xor2_1     780     2.4%
+  sky130_fd_sc_hd__inv_1      645     1.9%
+  sky130_fd_sc_hd__nand3_1    643     1.9%
+  sky130_fd_sc_hd__nor3_1     632     1.9%
+
+  Top 3 (sky130_fd_sc_hd__fa_1, sky130_fd_sc_hd__edfxtp_1, sky130_fd_sc_hd__ha_1) = 12232 (37%)
+
+  功能类别                 数量       占比
+  ------------------------------
+  sky130_fd_sc_hd__fa_1   4389    13.3%
+  sky130_fd_sc_hd__edfxtp_1   4318    13.1%
+  sky130_fd_sc_hd__ha_1   3525    10.7%
+  sky130_fd_sc_hd__and2_1   2529     7.6%
+  sky130_fd_sc_hd__nand2_1   2324     7.0%
+  sky130_fd_sc_hd__o21ai_0   1763     5.3%
+  sky130_fd_sc_hd__a21oi_1   1697     5.1%
+  sky130_fd_sc_hd__xnor2_1   1676     5.1%
+  sky130_fd_sc_hd__nor2_1   1222     3.7%
+  sky130_fd_sc_hd__mux2_2    948     2.9%
+================================================================
+
+Saved: results/repro/jpeg_sky130hd/cells.png
+Saved: results/repro/jpeg_sky130hd/cell_functions.png

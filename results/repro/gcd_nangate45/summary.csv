@@ -1,0 +1,2 @@
+design,instances,cell_types,ports_in,ports_out,ports_inout,nets,stdcell_insts,macro_insts,macro_types,degree_mean,degree_min,degree_max,fanout_mean,fanout_p95,fanout_max_signal,special_clock,special_reset,special_const,rent_p,rent_k
+gcd,516,33,37,19,0,589,516,0,0,3.104651162790698,2,5,2.7,5,11,1,1,0,1.228,0.7

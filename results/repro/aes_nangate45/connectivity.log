@@ -1,0 +1,11 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'done' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'key' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ld' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_in' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_out' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file '/home/zixiao/agentic_Hanqing/test/aes_nangate45.v' successfully.
+Saved: aes_cipher_top_connectivity.png
+Rent p=1.216 k=0.5  Degree μ=4.0  Fanout μ=3.7  [1.3s]

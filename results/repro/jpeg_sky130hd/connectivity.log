@@ -1,0 +1,15 @@
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'amp' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'din' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'douten' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'dstrb' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ena' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'qnt_cnt' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'qnt_val' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'rlen' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'size' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file '/home/zixiao/agentic_Hanqing/test/jpeg_sky130hd.v' successfully.
+Saved: jpeg_encoder_connectivity.png
+Rent p=1.231 k=0.3  Degree μ=3.8  Fanout μ=3.1  [1.8s]

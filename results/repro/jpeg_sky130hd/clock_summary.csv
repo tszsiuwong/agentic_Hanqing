@@ -1,0 +1,2 @@
+design,seq_cells,icg_cells,clkbuf_cells,comb_cells,clock_domains,ff_with_reset,ff_with_enable
+jpeg_encoder,4384,0,874,27825,1,0,0

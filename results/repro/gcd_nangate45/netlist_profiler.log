@@ -1,0 +1,86 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'req_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'reset' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'resp_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/gcd_nangate45.v' successfully.
+
+============================================================
+  基础统计
+============================================================
+  Instance:  516
+  Cell 类型: 33
+  Port:      56  (IN:37  OUT:19  INOUT:0)
+  Net:       589
+
+============================================================
+  单元分布
+============================================================
+  Cell                             数量       占比
+  ------------------------------------------
+  NAND2_X1                        166    32.2%
+  INV_X1                           81    15.7%
+  OAI21_X1                         42     8.1%
+  DFF_X1                           35     6.8%
+  NAND3_X1                         34     6.6%
+  NAND2_X2                         27     5.2%
+  NOR2_X1                          23     4.5%
+  NAND4_X1                         13     2.5%
+  NAND2_X4                         12     2.3%
+  INV_X2                           11     2.1%
+  XNOR2_X1                         11     2.1%
+  AOI21_X1                         10     1.9%
+  NOR2_X2                           8     1.6%
+  BUF_X1                            8     1.6%
+  AND2_X1                           5     1.0%
+  ... (共 33 种)
+
+  Top 3 (NAND2_X1, INV_X1, OAI21_X1) = 289 (56%)
+
+============================================================
+  功能分类
+============================================================
+  NAND2               205  (39.7%)
+  INV                  94  (18.2%)
+  OAI21                43  (8.3%)
+  DFF                  35  (6.8%)
+  NAND3                34  (6.6%)
+  NOR2                 33  (6.4%)
+  BUF                  14  (2.7%)
+  NAND4                13  (2.5%)
+  AOI21                12  (2.3%)
+  XNOR2                11  (2.1%)
+  AND2                  7  (1.4%)
+  NOR4                  4  (0.8%)
+  OR2                   3  (0.6%)
+  MUX2                  3  (0.6%)
+  CLKBUF                2  (0.4%)
+
+============================================================
+  连接度
+============================================================
+  Degree (标准单元): 均值 3.1  σ=0.8  范围 2–5
+  Fanout (信号网): 均值 2.7  P95=5  最大 11
+
+============================================================
+  宏单元（SRAM/ROM/regfile/pad）—— 单独分析，不计入 Degree 统计
+============================================================
+  无宏单元
+
+============================================================
+  特殊网（时钟/复位/常量）—— 单独分析，不计入 Fanout 统计
+============================================================
+  Clock 网: 1 条 | Reset 网: 1 条 | 常量网: 0 条
+
+  [clock   ] clk                                      FO=35
+  [reset   ] reset                                    FO=1
+  Rent  p:   1.228    k: 0.72  (标准单元)
+  CSV → results/repro/gcd_nangate45/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv
+
+============================================================
+  Done — 图表 → out/
+============================================================

@@ -1,0 +1,2 @@
+design,seq_cells,icg_cells,clkbuf_cells,comb_cells,clock_domains,ff_with_reset,ff_with_enable
+RocketTile,4035,0,282,23633,3,0,0

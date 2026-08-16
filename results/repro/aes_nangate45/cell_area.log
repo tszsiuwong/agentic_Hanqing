@@ -1,0 +1,32 @@
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/Nangate45/NangateOpenCellLibrary.tech.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/Nangate45/NangateOpenCellLibrary.tech.lef' successfully.
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/Nangate45/NangateOpenCellLibrary.macro.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/Nangate45/NangateOpenCellLibrary.macro.lef' successfully.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'done' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'key' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ld' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_in' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_out' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/aes_nangate45.v' successfully.
+============================================================
+单元面积分析
+============================================================
+  可用 Macro:  30/30 种
+  总面积:      15832.59 µm²  (1.32 /个)
+============================================================
+
+  Cell                        面积(µm²)     数量        总面积
+  ----------------------------------------------------
+  DFF_X1                        4.522    561    2536.84
+  AOI21_X1                      1.064   1620    1723.68
+  OAI21_X1                      1.064   1512    1608.77
+  NOR2_X1                       0.798   1571    1253.66
+  NAND2_X1                      0.798   1498    1195.40
+  XNOR2_X1                      1.596    695    1109.22
+  AOI221_X1                     1.596    693    1106.03
+  OAI221_X1                     1.596    597     952.81
+  MUX2_X1                       1.862    499     929.14
+  AOI22_X1                      1.330    398     529.34

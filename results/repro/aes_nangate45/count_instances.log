@@ -1,0 +1,74 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'done' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'key' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ld' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_in' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_out' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/aes_nangate45.v' successfully.
+================================================================
+  纯网表基础统计
+================================================================
+  总 Instance:   11951
+  Cell 类型:     30 种
+  Port:          391  (IN:0  OUT:0  INOUT:0)
+  Net:           12778
+
+  Cell                         数量       占比
+  --------------------------------------
+  AOI21_X1                   1620    13.6%
+  NOR2_X1                    1571    13.1%
+  OAI21_X1                   1512    12.7%
+  NAND2_X1                   1498    12.5%
+  XNOR2_X1                    695     5.8%
+  AOI221_X1                   693     5.8%
+  OAI221_X1                   597     5.0%
+  DFF_X1                      561     4.7%
+  MUX2_X1                     499     4.2%
+  NOR3_X1                     446     3.7%
+  AOI22_X1                    398     3.3%
+  OAI22_X1                    388     3.2%
+  NAND3_X1                    375     3.1%
+  XOR2_X1                     311     2.6%
+  INV_X1                      140     1.2%
+
+  Top 3 (AOI21_X1, NOR2_X1, OAI21_X1) = 4703 (39%)
+
+  功能类别                 数量       占比
+  ------------------------------
+  AOI21              1620    13.6%
+  NOR2               1571    13.1%
+  OAI21              1512    12.7%
+  NAND2              1498    12.5%
+  XNOR2               695     5.8%
+  AOI221              693     5.8%
+  OAI221              597     5.0%
+  DFF                 561     4.7%
+  MUX2                499     4.2%
+  NOR3                446     3.7%
+================================================================
+Traceback (most recent call last):
+  File "/home/zixiao/.local/lib/python3.11/site-packages/matplotlib/axes/_axes.py", line 2523, in bar
+    x, height, width, y, linewidth, hatch = np.broadcast_arrays(
+                                            ^^^^^^^^^^^^^^^^^^^^
+  File "/home/zixiao/.local/lib/python3.11/site-packages/numpy/lib/_stride_tricks_impl.py", line 577, in broadcast_arrays
+    shape = _broadcast_shape(*args)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zixiao/.local/lib/python3.11/site-packages/numpy/lib/_stride_tricks_impl.py", line 452, in _broadcast_shape
+    b = np.broadcast(*args[:64])
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shape mismatch: objects cannot be broadcast to a single shape.  Mismatch is between arg 0 with shape (30,) and arg 1 with shape (31,).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zixiao/agentic_Hanqing/analysis/count_instances.py", line 101, in <module>
+    bars = ax.bar(range(len(show_names)), show_counts, color=colors)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zixiao/.local/lib/python3.11/site-packages/matplotlib/__init__.py", line 1528, in inner
+    return func(
+           ^^^^^
+  File "/home/zixiao/.local/lib/python3.11/site-packages/matplotlib/axes/_axes.py", line 2540, in bar
+    raise ValueError(error_message) from e
+ValueError: shape mismatch: objects cannot be broadcast to a single shape.  Mismatch is between 'x' with shape (30,) and 'height' with shape (31,).

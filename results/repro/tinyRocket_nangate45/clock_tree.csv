@@ -1,0 +1,4 @@
+clock_root,depth,buffers,leaves,other
+clock,0,0,704,3
+io_ungated_clock,0,0,0,0
+gated_clock,0,0,0,0

@@ -1,0 +1,36 @@
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/sky130hd/sky130_fd_sc_hd.tlef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/sky130hd/sky130_fd_sc_hd.tlef' successfully.
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/sky130hd/sky130_fd_sc_hd_merged.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/sky130hd/sky130_fd_sc_hd_merged.lef' successfully.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'amp' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'din' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'douten' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'dstrb' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ena' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'qnt_cnt' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'qnt_val' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'rlen' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'size' in module 'jpeg_encoder'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/jpeg_sky130hd.v' successfully.
+============================================================
+单元面积分析
+============================================================
+  可用 Macro:  92/92 种
+  总面积:      390458.23 µm²  (11.80 /个)
+============================================================
+
+  Cell                        面积(µm²)     数量        总面积
+  ----------------------------------------------------
+  sky130_fd_sc_hd__edfxtp_1     30.029   4318  129664.36
+  sky130_fd_sc_hd__fa_1        20.019   4389   87864.27
+  sky130_fd_sc_hd__ha_1        12.512   3525   44104.80
+  sky130_fd_sc_hd__and2_1       6.256   2529   15821.42
+  sky130_fd_sc_hd__xnor2_1      8.758   1676   14679.08
+  sky130_fd_sc_hd__mux2_2      11.261    948   10675.24
+  sky130_fd_sc_hd__o21ai_0      5.005   1763    8823.46
+  sky130_fd_sc_hd__nand2_1      3.754   2324    8723.37
+  sky130_fd_sc_hd__a21oi_1      5.005   1697    8493.15
+  sky130_fd_sc_hd__xor2_1       8.758    780    6831.55

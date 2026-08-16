@@ -1,0 +1,108 @@
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_BRENT_KUNG '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module 'ALU_33_0_33_0_33_unused_CO_X_Y\[0\]_HAN_CARLSON'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_KOGGE_STONE '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 9 modules.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'A' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'B' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'BI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'CI' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name '\Y[32:1] ' in module '\ALU_33_0_33_0_33_unused_CO_X_Y[0]_SKLANSKY '. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 9 modules.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 6 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 7 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 8 of 9 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 9 of 9 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/ibex_sky130hd.v' successfully.
+
+============================================================
+  基础统计
+============================================================
+  Instance:  13752
+  Cell 类型: 82
+  Port:      273  (IN:163  OUT:110  INOUT:0)
+  Net:       13497
+
+============================================================
+  单元分布
+============================================================
+  Cell                             数量       占比
+  ------------------------------------------
+  sky130_fd_sc_hd__nand2_1       2429    17.7%
+  sky130_fd_sc_hd__dfrtp_1       1650    12.0%
+  sky130_fd_sc_hd__o21ai_0       1539    11.2%
+  sky130_fd_sc_hd__nor2_1        1073     7.8%
+  sky130_fd_sc_hd__a21oi_1       1005     7.3%
+  sky130_fd_sc_hd__xnor2_1        490     3.6%
+  sky130_fd_sc_hd__mux2i_1        436     3.2%
+  sky130_fd_sc_hd__a22oi_1        397     2.9%
+  sky130_fd_sc_hd__mux2_1         388     2.8%
+  sky130_fd_sc_hd__mux4_2         343     2.5%
+  sky130_fd_sc_hd__edfxtp_1       273     2.0%
+  sky130_fd_sc_hd__nand3_1        264     1.9%
+  sky130_fd_sc_hd__xor2_1         249     1.8%
+  sky130_fd_sc_hd__o31ai_1        238     1.7%
+  sky130_fd_sc_hd__maj3_1         227     1.7%
+  ... (共 82 种)
+
+  Top 3 (sky130_fd_sc_hd__nand2_1, sky130_fd_sc_hd__dfrtp_1, sky130_fd_sc_hd__o21ai_0) = 5618 (41%)
+
+============================================================
+  功能分类
+============================================================
+  sky130_fd_sc_hd__nand2_1   2429  (17.7%)
+  sky130_fd_sc_hd__dfrtp_1   1650  (12.0%)
+  sky130_fd_sc_hd__o21ai_0   1539  (11.2%)
+  sky130_fd_sc_hd__nor2_1   1073  (7.8%)
+  sky130_fd_sc_hd__a21oi_1   1005  (7.3%)
+  sky130_fd_sc_hd__xnor2_1    490  (3.6%)
+  sky130_fd_sc_hd__mux2i_1    436  (3.2%)
+  sky130_fd_sc_hd__a22oi_1    397  (2.9%)
+  sky130_fd_sc_hd__mux2_1    388  (2.8%)
+  sky130_fd_sc_hd__mux4_2    343  (2.5%)
+  sky130_fd_sc_hd__edfxtp_1    273  (2.0%)
+  sky130_fd_sc_hd__nand3_1    264  (1.9%)
+  sky130_fd_sc_hd__xor2_1    249  (1.8%)
+  sky130_fd_sc_hd__o31ai_1    238  (1.7%)
+  sky130_fd_sc_hd__maj3_1    227  (1.7%)
+
+============================================================
+  连接度
+============================================================
+  Degree (标准单元): 均值 3.8  σ=1.2  范围 0–7
+  Fanout (信号网): 均值 3.7  P95=8  最大 939
+
+============================================================
+  宏单元（SRAM/ROM/regfile/pad）—— 单独分析，不计入 Degree 统计
+============================================================
+  无宏单元
+
+============================================================
+  特殊网（时钟/复位/常量）—— 单独分析，不计入 Fanout 统计
+============================================================
+  Clock 网: 2 条 | Reset 网: 1 条 | 常量网: 0 条
+
+  [reset   ] rst_ni                                   FO=1659
+  [clock   ] clk_i                                    FO=996
+  [clock   ] core_clock_gate_i.en_latch               FO=2
+  Rent  p:   1.300    k: 0.21  (标准单元)
+  CSV → results/repro/ibex_sky130hd/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv
+
+============================================================
+  Done — 图表 → out/
+============================================================

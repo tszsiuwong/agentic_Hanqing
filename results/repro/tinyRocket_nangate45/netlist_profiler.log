@@ -1,0 +1,108 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clock' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_address' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_action' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_r' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_tmatch' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_w' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_bp_0_control_x' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_cause' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_csr_stall' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_decode_0_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_csr' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_fp_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_read_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_flush' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_decode_0_write_illegal' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_eret' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_evec' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_exception' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'io_inst_0' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'io_interrupt' in module 'CSRFile'. Delete the net with the same name as the port from the module definition.
+[WARNING] [log.cc:1161] [    BP-0149] The output times of the message VRLG-I-0033 exceed the limit of 20. Other messages will be suppressed.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 5 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 5 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/tinyRocket_nangate45.v' successfully.
+/home/zixiao/agentic_Hanqing/analysis/netlist_profiler.py:333: RuntimeWarning: divide by zero encountered in log10
+  p, lk = np.polyfit(np.log10(cg[start:]), np.log10(cp[start:]), 1); k = 10**lk
+
+============================================================
+  基础统计
+============================================================
+  Instance:  27950
+  Cell 类型: 82
+  Port:      291  (IN:148  OUT:143  INOUT:0)
+  Net:       4421
+
+============================================================
+  单元分布
+============================================================
+  Cell                             数量       占比
+  ------------------------------------------
+  MUX2_X1                        5936    21.2%
+  DFF_X1                         4035    14.4%
+  INV_X1                         1812     6.5%
+  BUF_X1                         1802     6.4%
+  OAI21_X1                       1755     6.3%
+  NAND2_X1                       1643     5.9%
+  HA_X1                          1570     5.6%
+  AOI21_X1                       1429     5.1%
+  NOR2_X1                        1054     3.8%
+  AND2_X1                         860     3.1%
+  NAND3_X1                        545     1.9%
+  NOR3_X1                         496     1.8%
+  OAI22_X1                        479     1.7%
+  AOI221_X1                       401     1.4%
+  XNOR2_X1                        380     1.4%
+  ... (共 82 种)
+
+  Top 3 (MUX2_X1, DFF_X1, INV_X1) = 11783 (42%)
+
+============================================================
+  功能分类
+============================================================
+  MUX2               5946  (21.3%)
+  DFF                4035  (14.4%)
+  BUF                2261  (8.1%)
+  INV                1822  (6.5%)
+  OAI21              1767  (6.3%)
+  NAND2              1658  (5.9%)
+  HA                 1570  (5.6%)
+  AOI21              1471  (5.3%)
+  NOR2               1085  (3.9%)
+  AND2                871  (3.1%)
+  NAND3               555  (2.0%)
+  NOR3                526  (1.9%)
+  OAI22               485  (1.7%)
+  AOI221              423  (1.5%)
+  XNOR2               380  (1.4%)
+
+============================================================
+  连接度
+============================================================
+  Degree (标准单元): 均值 0.4  σ=1.1  范围 0–7
+  Fanout (信号网): 均值 1.9  P95=4  最大 11
+
+============================================================
+  宏单元（SRAM/ROM/regfile/pad）—— 单独分析，不计入 Degree 统计
+============================================================
+  宏单元总数: 2  (0.01% of 27950)
+  宏单元类型: 1 种
+
+  fakeram45_64x32              ×2       degree≈0
+
+============================================================
+  特殊网（时钟/复位/常量）—— 单独分析，不计入 Fanout 统计
+============================================================
+  Clock 网: 1 条 | Reset 网: 1 条 | 常量网: 0 条
+
+  [clock   ] clock                                    FO=704
+  [reset   ] reset                                    FO=1
+  Rent  p:   0.000    k: 1.00  (标准单元)
+  CSV → results/repro/tinyRocket_nangate45/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv
+
+============================================================
+  Done — 图表 → out/
+============================================================

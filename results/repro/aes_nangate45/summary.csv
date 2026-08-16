@@ -1,0 +1,2 @@
+design,instances,cell_types,ports_in,ports_out,ports_inout,nets,stdcell_insts,macro_insts,macro_types,degree_mean,degree_min,degree_max,fanout_mean,fanout_p95,fanout_max_signal,special_clock,special_reset,special_const,rent_p,rent_k
+aes_cipher_top,11951,30,261,130,0,12778,11951,0,0,3.961091122081834,2,7,3.67,8,239,1,1,0,1.216,0.5

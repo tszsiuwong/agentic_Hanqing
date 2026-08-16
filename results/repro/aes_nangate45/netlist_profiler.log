@@ -1,0 +1,85 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'done' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'key' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'ld' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'rst' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_in' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'text_out' in module 'aes_cipher_top'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/aes_nangate45.v' successfully.
+
+============================================================
+  基础统计
+============================================================
+  Instance:  11951
+  Cell 类型: 30
+  Port:      391  (IN:261  OUT:130  INOUT:0)
+  Net:       12778
+
+============================================================
+  单元分布
+============================================================
+  Cell                             数量       占比
+  ------------------------------------------
+  AOI21_X1                       1620    13.6%
+  NOR2_X1                        1571    13.1%
+  OAI21_X1                       1512    12.7%
+  NAND2_X1                       1498    12.5%
+  XNOR2_X1                        695     5.8%
+  AOI221_X1                       693     5.8%
+  OAI221_X1                       597     5.0%
+  DFF_X1                          561     4.7%
+  MUX2_X1                         499     4.2%
+  NOR3_X1                         446     3.7%
+  AOI22_X1                        398     3.3%
+  OAI22_X1                        388     3.2%
+  NAND3_X1                        375     3.1%
+  XOR2_X1                         311     2.6%
+  INV_X1                          140     1.2%
+  ... (共 30 种)
+
+  Top 3 (AOI21_X1, NOR2_X1, OAI21_X1) = 4703 (39%)
+
+============================================================
+  功能分类
+============================================================
+  AOI21              1620  (13.6%)
+  NOR2               1571  (13.1%)
+  OAI21              1512  (12.7%)
+  NAND2              1498  (12.5%)
+  XNOR2               695  (5.8%)
+  AOI221              693  (5.8%)
+  OAI221              597  (5.0%)
+  DFF                 561  (4.7%)
+  MUX2                499  (4.2%)
+  NOR3                446  (3.7%)
+  AOI22               398  (3.3%)
+  OAI22               388  (3.2%)
+  NAND3               375  (3.1%)
+  XOR2                311  (2.6%)
+  INV                 140  (1.2%)
+
+============================================================
+  连接度
+============================================================
+  Degree (标准单元): 均值 4.0  σ=1.0  范围 2–7
+  Fanout (信号网): 均值 3.7  P95=8  最大 239
+
+============================================================
+  宏单元（SRAM/ROM/regfile/pad）—— 单独分析，不计入 Degree 统计
+============================================================
+  无宏单元
+
+============================================================
+  特殊网（时钟/复位/常量）—— 单独分析，不计入 Fanout 统计
+============================================================
+  Clock 网: 1 条 | Reset 网: 1 条 | 常量网: 0 条
+
+  [clock   ] clk                                      FO=561
+  [reset   ] rst                                      FO=3
+  Rent  p:   1.216    k: 0.50  (标准单元)
+  CSV → results/repro/aes_nangate45/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv
+
+============================================================
+  Done — 图表 → out/
+============================================================

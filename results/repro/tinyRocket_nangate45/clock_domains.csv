@@ -1,0 +1,4 @@
+clock_root,ff_count,period_ns,freq_mhz,generated,source,divide_by
+clock,3070,,,False,,
+gated_clock,899,,,False,,
+io_ungated_clock,65,,,False,,

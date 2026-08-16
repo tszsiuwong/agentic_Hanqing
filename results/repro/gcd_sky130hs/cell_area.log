@@ -1,0 +1,33 @@
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/sky130hs/sky130_fd_sc_hs.tlef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/sky130hs/sky130_fd_sc_hs.tlef' successfully.
+[INFO] [read_lef_refactor.cc:393] [ LEF-I-0012] Start reading LEF file 'test/sky130hs/sky130_fd_sc_hs_merged.lef'.
+[INFO] [read_lef_refactor.cc:420] [ LEF-I-0001] Read LEF file 'test/sky130hs/sky130_fd_sc_hs_merged.lef' successfully.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'req_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'reset' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'resp_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file 'test/gcd_sky130hs.v' successfully.
+============================================================
+单元面积分析
+============================================================
+  可用 Macro:  42/42 种
+  总面积:      3908.09 µm²  (10.07 /个)
+============================================================
+
+  Cell                        面积(µm²)     数量        总面积
+  ----------------------------------------------------
+  sky130_fd_sc_hs__edfxtp_1     43.157     32    1381.02
+  sky130_fd_sc_hs__nand2_1      4.795    128     613.79
+  sky130_fd_sc_hs__nand3_1      7.992     31     247.75
+  sky130_fd_sc_hs__nor2_1       4.795     39     187.01
+  sky130_fd_sc_hs__xnor2_1     11.189     12     134.27
+  sky130_fd_sc_hs__a21oi_1      6.394     20     127.87
+  sky130_fd_sc_hs__inv_1        4.795     24     115.08
+  sky130_fd_sc_hs__and2_1       7.992     13     103.90
+  sky130_fd_sc_hs__xnor2_2     17.582      5      87.91
+  sky130_fd_sc_hs__nand4_1      9.590      9      86.31

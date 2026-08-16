@@ -1,0 +1,3 @@
+net_name,type,fanout
+clock,clock,704
+reset,reset,1

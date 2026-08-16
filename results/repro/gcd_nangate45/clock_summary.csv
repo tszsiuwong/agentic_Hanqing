@@ -1,0 +1,2 @@
+design,seq_cells,icg_cells,clkbuf_cells,comb_cells,clock_domains,ff_with_reset,ff_with_enable
+gcd,35,0,2,479,1,0,0

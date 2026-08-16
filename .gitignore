@@ -1,3 +1,5 @@
 .DS_Store
 test/
 notes/
+__pycache__/
+*.pyc

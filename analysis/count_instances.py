@@ -92,18 +92,22 @@ if png_dir != "." or '--png' in sys.argv:
     names = [n for n, _ in sorted_cells]
     counts = [c for _, c in sorted_cells]
     show_n = min(30, len(names))
-    show_names = names[:show_n] + ['Other'] * (len(names) > show_n)
-    show_counts = counts[:show_n] + [sum(counts[show_n:])]
+    if len(names) > show_n:
+        show_names = names[:show_n] + ['Other']
+        show_counts = counts[:show_n] + [sum(counts[show_n:])]
+    else:
+        show_names = names[:show_n]
+        show_counts = counts[:show_n]
     colors = ['#FF5722' if i < 3 else '#2196F3' for i in range(len(show_names))]
     if len(names) > show_n:
         colors[-1] = '#9E9E9E'
     fig, ax = plt.subplots(figsize=(14, 5))
-    ax.bar(range(len(show_names)), show_counts, color=colors)
+    bars = ax.bar(range(len(show_names)), show_counts, color=colors)
     ax.set_xticks(range(len(show_names)))
     ax.set_xticklabels(show_names, rotation=45, ha='right', fontsize=8)
     ax.set_ylabel('Count')
     ax.set_title('Cell Distribution')
-    for bar, c in zip(bars, counts):
+    for bar, c in zip(bars, show_counts):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(counts)*0.005,
                 str(c), ha='center', va='bottom', fontsize=6)
     plt.tight_layout()

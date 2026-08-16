@@ -85,14 +85,19 @@ if lib_file:
                 has_clock = False
                 for lp in lc.libpin_iter():
                     role = None
-                    if lp.is_clock:
+                    def _prop(name):
+                        try:
+                            return bool(lp.get_property(name))
+                        except Exception:
+                            return False
+                    if _prop('is_clock_pin'):
                         has_clock = True
                         role = 'clock'
-                    elif lp.is_clock_gate_clock_pin:
+                    elif _prop('is_clock_gate_clock_pin'):
                         role = 'gate_clock'
-                    elif lp.is_clock_gate_enable_pin:
+                    elif _prop('is_clock_gate_enable_pin'):
                         role = 'gate_enable'
-                    elif lp.is_clock_gate_out_pin:
+                    elif _prop('is_clock_gate_output_pin') or _prop('is_clock_gate_out_pin'):
                         role = 'gate_out'
                     if role:
                         pins[lp.name] = role
@@ -127,6 +132,14 @@ CLK_PIN_NAMES = {'CK', 'CLK', 'CP', 'G', 'GN', 'C', 'CLKN', 'CLOCK', 'PH1', 'PH2
 RST_PIN_NAMES = {'RN', 'RST', 'RSTN', 'R', 'SN', 'SET', 'SETN', 'S', 'CDN', 'SDN'}
 EN_PIN_NAMES = {'SE', 'SI', 'E', 'EN', 'CE', 'TE'}
 
+# sky130 命名（sky130_fd_sc_h*__<fn>_<drive>）：FF/latch 基名含 df/dl，时钟 buffer 基名含 clkbuf/clkinv
+_SKY130_FF_SUB = ('__DF', '__DL', '__EDF', '__SDF', '__DFR', '__DFS', '__DFT')
+_SKY130_CLKBUF_SUB = ('__CLKBUF', '__CLKINV')
+def _is_sky130_ff(ref):
+    return any(s in ref for s in _SKY130_FF_SUB)
+def _is_sky130_clkbuf(ref):
+    return any(s in ref for s in _SKY130_CLKBUF_SUB)
+
 seq_cells = []     # 时序单元 (inst)
 icg_cells = []     # 时钟门控 (inst)
 clkbuf_cells = []  # 时钟 buffer (inst)
@@ -138,9 +151,11 @@ for inst in insts:
         seq_cells.append(inst)
     elif any(ref.startswith(p) for p in SEQ_PREFIXES):  # 回退启发式
         seq_cells.append(inst)
+    elif _is_sky130_ff(ref):                    # sky130 FF/latch 基名启发式
+        seq_cells.append(inst)
     elif any(ref.startswith(p) for p in ICG_PREFIXES):
         icg_cells.append(inst)
-    elif any(ref.startswith(p) for p in CLKBUF_PREFIXES):
+    elif any(ref.startswith(p) for p in CLKBUF_PREFIXES) or _is_sky130_clkbuf(ref):
         clkbuf_cells.append(inst)
     else:
         comb_cells.append(inst)
@@ -174,7 +189,7 @@ print(f"[进度] 时钟引脚提取完成：{len(ff_clock_net)} 个寄存器有�
 
 # ── 时钟域聚类：追 fanin 到根 ─────────────────────────
 BUFFER_INPUT_PINS = {'A', 'I', 'IN', 'CK', 'CLK'}
-BUFFER_OUTPUT_PINS = {'Z', 'ZN', 'Y', 'Q', 'QN', 'OUT'}
+BUFFER_OUTPUT_PINS = {'Z', 'ZN', 'Y', 'Q', 'QN', 'OUT', 'X'}
 
 def trace_clock_root(netname, max_depth=50):
     """从叶子时钟网向上追溯到时钟根（顶层 port 或非 buffer 驱动）"""
@@ -198,7 +213,7 @@ def trace_clock_root(netname, max_depth=50):
         if inst is None:
             break  # 顶层 port
         ref = inst.ref_name.upper()
-        if any(ref.startswith(p) for p in CLKBUF_PREFIXES):
+        if any(ref.startswith(p) for p in CLKBUF_PREFIXES) or _is_sky130_clkbuf(ref):
             # 时钟 buffer → 追输入 pin（A/I 等）
             nxt = None
             for p2 in inst.pins:
@@ -262,7 +277,7 @@ def analyze_clock_tree(root_net_name):
             if inst is None:
                 continue  # 顶层 port
             ref = inst.ref_name.upper()
-            if any(ref.startswith(p) for p in CLKBUF_PREFIXES):
+            if any(ref.startswith(p) for p in CLKBUF_PREFIXES) or _is_sky130_clkbuf(ref):
                 level_buffers[depth] += 1
                 # 找输出 pin，输出 net 加入下一层
                 for p2 in inst.pins:
@@ -280,7 +295,7 @@ def analyze_clock_tree(root_net_name):
                         if nn:
                             queue.append((nn.name, depth + 1))
                         break
-            elif any(ref.startswith(p) for p in SEQ_PREFIXES):
+            elif any(ref.startswith(p) for p in SEQ_PREFIXES) or _is_sky130_ff(ref):
                 level_leaves[depth] += 1
             else:
                 level_other[depth] += 1

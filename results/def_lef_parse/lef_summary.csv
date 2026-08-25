@@ -1,0 +1,11 @@
+lef_files,/home/zixiao/OpenROAD/test/Nangate45/Nangate45.lef
+tech_name,ref
+micron_per_dbu,0.0005
+layer_count,22
+via_count,27
+via_rule_count,19
+site_count,1
+macro_count,135
+macro_pin_min,2
+macro_pin_max,10
+macro_pin_avg,5.95

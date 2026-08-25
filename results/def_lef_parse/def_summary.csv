@@ -1,0 +1,35 @@
+def_file,/home/zixiao/or_synth_demo/demo_out.def
+module,gcd
+micron_per_dbu,0.0005
+die_bbox,"(0, 0) - (200260, 201600)"
+die_width_dbu,200260
+die_height_dbu,201600
+die_width_um,100.13
+die_height_um,100.8
+die_area_um2,10093.104
+row_count,57
+row_orient_dist,"{'N': 29, 'FS': 28}"
+row_site,FreePDK45_38x28_10R_NP_162NW_34O
+row_site_width_dbu,380
+row_site_height_dbu,2800
+component_count,231
+component_status_dist,{'PLACED': 231}
+component_bbox,"(61180,22400) - (134900,70000)"
+component_ref_kinds,21
+port_count,56
+port_bus_count,2
+port_bit_count,48
+port_scalar_count,6
+port_dir_dist,"{'INPUT': 37, 'OUTPUT': 19}"
+port_without_position,0
+net_count,307
+net_bus_count,6
+net_bit_count,98
+net_scalar_count,203
+net_use_dist,"{'CLOCK': 1, 'SIGNAL': 306}"
+special_net_count,0
+normal_net_count,307
+total_wire_shapes,0
+total_via_shapes,0
+gcellgrid_count,2
+track_count,20

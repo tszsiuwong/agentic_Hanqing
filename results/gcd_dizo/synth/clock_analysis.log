@@ -1,0 +1,50 @@
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'clk' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'req_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'req_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'reset' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1731] [VRLG-I-0033] Port and net have the same name 'resp_msg' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_rdy' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[WARNING] [read_verilog.cc:1748] [VRLG-I-0033] Port and net have the same name 'resp_val' in module 'gcd'. Delete the net with the same name as the port from the module definition.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 1 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file '/home/zixiao/or_synth_demo/gcd_synth.v' successfully.
+[进度] 读取模块实例 ...
+[进度] 实例 231，网 358
+[进度] 分类完成：seq=34 icg=0 clkbuf=0 comb=197
+[进度] 时钟引脚提取完成：34 个寄存器有时钟引脚
+[进度] 时钟域聚类完成：1 个时钟域
+
+================================================================
+  时钟结构分析  —  gcd
+================================================================
+
+[1] 单元分类
+  时序单元 (DFF/Latch):  34
+  CLKBUF/CLKINV 命名单元: 0  (未必在时钟路径，见 [6] 拓扑)
+  时钟门控 (ICG 命名):   0
+  组合逻辑:              197
+
+[2] 时序单元类型分布
+  DFF_X1                       34
+
+[3] 时钟域（1 个）
+  时钟根 'clk': 34 个寄存器  (SDC 无定义)
+
+[4] 时钟门控
+  无时钟门控单元（未插入 ICG）
+
+[5] 复位/使能
+  带复位寄存器: 0 / 34
+  带使能/scan 寄存器: 0 / 34
+
+[6] 时钟树拓扑
+  时钟域 'clk':
+    深度 0 层 | buffer 0 个 | 寄存器叶子 34 个 | 其他 0 个
+    L0: buffer=0    叶子=34    其他=0    (buffer 平均扇出 0.0)
+
+  CSV → results/gcd_dizo/synth/clock_summary.csv  clock_domains.csv  seq_cells.csv
+  PNG → results/gcd_dizo/synth/clock_structure.png
+
+================================================================
+  Done.
+================================================================

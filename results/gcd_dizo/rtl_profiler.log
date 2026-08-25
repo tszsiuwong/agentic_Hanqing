@@ -1,0 +1,57 @@
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 1 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 2 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 3 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 4 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 5 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 6 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 7 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 8 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 9 of 10 modules.
+[INFO] [read_verilog.cc:1490] [VRLG-I-0123] Completed reading 10 of 10 modules.
+[INFO] [read_verilog.cc:1088] [VRLG-I-0001] Read Verilog file '/home/zixiao/or_synth_demo/gcd_rtl.v' successfully.
+
+============================================================
+  基础统计
+============================================================
+  Instance:  0
+  Cell 类型: 0
+  Port:      56  (IN:37  OUT:19  INOUT:0)
+  Net:       69
+
+============================================================
+  单元分布
+============================================================
+  Cell                             数量       占比
+  ------------------------------------------
+
+============================================================
+  功能分类
+============================================================
+
+============================================================
+  连接度
+============================================================
+  Degree (标准单元): N/A
+  Fanout (信号网): 均值 0.3  P95=1  最大 1
+
+============================================================
+  宏单元（SRAM/ROM/regfile/pad）—— 单独分析，不计入 Degree 统计
+============================================================
+  无宏单元
+
+============================================================
+  特殊网（时钟/复位/常量）—— 单独分析，不计入 Fanout 统计
+============================================================
+  Clock 网: 1 条 | Reset 网: 1 条 | 常量网: 0 条
+
+  [clock   ] clk                                      FO=0
+  [reset   ] reset                                    FO=0
+  Rent:      N/A
+  CSV → results/gcd_dizo/rtl/summary.csv  macro_cells.csv  special_nets.csv  cell_distribution.csv
+Traceback (most recent call last):
+  File "/home/zixiao/agentic_Hanqing/analysis/netlist_profiler.py", line 293, in <module>
+    ax.bar(*zip(*dc), color='steelblue', edgecolor='white')
+  File "/home/zixiao/.local/lib/python3.11/site-packages/matplotlib/__init__.py", line 1528, in inner
+    return func(
+           ^^^^^
+TypeError: Axes.bar() missing 2 required positional arguments: 'x' and 'height'

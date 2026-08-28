@@ -129,3 +129,36 @@
 ---
 
 *报告生成时间：2026-08-28；全程只读输入，未改动 `~/dizo`、`~/OpenROAD/build`，未 commit/push。*
+
+
+---
+
+## 具体命令 / 复现步骤
+
+### 01 一键复现
+```bash
+cd ~/agentic_Hanqing
+source datalens_env.sh
+python3.11 results/clk_fanout_jpeg/clk_fanout_jpeg.py
+```
+> 分析时脚本位于 `~/clk_fanout_jpeg/`；仓库内归档于 `results/clk_fanout_jpeg/`。
+
+### 02 datalens 内联核心命令
+```python
+cd ~/agentic_Hanqing && source datalens_env.sh && python3.11
+# >>> import datalens
+# >>> netlist = "/home/zixiao/agentic_Hanqing/test/jpeg_sky130hd.v"
+# >>> datalens.exchange.load_netlist([netlist])
+# >>> top = datalens.design.present_project().present_module()
+
+# 注意：get_ports 返回 list
+clk_port = top.get_ports("clk")[0]
+all_objs  = clk_port.all_fanout()                       # port=1 + pin=4384
+end_pins  = clk_port.all_fanout(only_end=True)          # 4384 叶 DFF
+cells     = clk_port.all_fanout(only_cell=True)         # 4384 DFF instance
+flat_ends = clk_port.all_fanout(is_flatten_view=True, only_end=True)
+
+# 属性 vs 方法：pin.name / pin.inst / inst.ref_name / net.name 是属性; port.net() 是方法
+# all_fanout 全量结果含起始 port 自身(4385 = 1 port + 4384 pin)，计数时要剥掉
+```
+> 参数：`is_flatten_view` / `should_has_time_arc`(默认True) / `only_end` / `only_cell` / `level`(默认UINT32_MAX)。
